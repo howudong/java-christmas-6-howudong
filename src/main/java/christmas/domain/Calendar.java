@@ -1,4 +1,4 @@
-package christmas.domain.calendar;
+package christmas.domain;
 
 import java.util.List;
 
