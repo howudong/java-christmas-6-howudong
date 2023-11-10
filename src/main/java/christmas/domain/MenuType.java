@@ -19,8 +19,13 @@ public enum MenuType {
 
     static MenuType getMenuTypeByName(String productName) {
         return Arrays.stream(MenuType.values())
-                .filter(e -> e.name().equals(productName))
+                .filter(e -> e.findMatchedType(e.products, productName))
                 .findAny()
-                .orElseThrow(IllegalArgumentException::new);
+                .orElse(null);
+    }
+
+    private boolean findMatchedType(List<Product> products, String productName) {
+        return products.stream()
+                .anyMatch(e -> e.getName().equals(productName));
     }
 }
