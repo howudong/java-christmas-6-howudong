@@ -16,10 +16,11 @@
     - [x] 필드로 메뉴 개수를 가진다.
 
 
-- OrderProducts : 손님이 주문한 모든 메뉴의 정보들을 가진다.
-    - [ ] `List<OrderProducts>`를 가지도록 한다.
-        - [ ] List가 비어있다면 예외를 발생시킨다.
-        - [ ] 동일한 OrderProduct가 있다면 예외를 발생시킨다.
+- Orders : 손님이 주문한 모든 메뉴의 정보들을 가진다.
+    - [x] `List<OrderProducts>`를 가지도록 한다.
+        - [x] List가 비어있다면 예외를 발생시킨다.
+        - [x] 동일한 OrderProduct가 있다면 예외를 발생시킨다.
+        - [x] 일치하는 이름의 메뉴가 없다면 예외를 발생시킨다.
 
 - DecemberCalandar : 12월의 달력표
 
