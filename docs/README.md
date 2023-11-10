@@ -43,6 +43,11 @@
 - [ ] WeekendDiscountStrategy : 주말 할인
 - [ ] SpecialDiscountStrategy : 특별 할인
 
+- DiscountCalculator : 적용가능한 할인의 리스트를 반환한다.
+    - [ ] 예약 일자를 매개변수로 넣으면 적용 가능한 할인의 리스트를 반환한다.
+        - [ ] `DiscountStragtegy` 형태로 반환하도록 한다.
+        -
+
 ## 유틸리티
 
 - ErrorHandler : 예외 메시지를 제어하고, 재실행시키는 유틸리티 클래
