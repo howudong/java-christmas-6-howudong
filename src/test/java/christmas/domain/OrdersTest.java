@@ -68,6 +68,13 @@ class OrdersTest {
                 .hasMessageContaining(ErrorHandler.INVALID_ORDER);
     }
 
+    @ParameterizedTest
+    @MethodSource("createCorrectOrder")
+    @DisplayName("올바른 주문이 들어온다면 예외가 발생하지 않는다..")
+    void 주문_(List<Order> param) {
+        new Orders(param);
+    }
+
     @MethodSource
     private static Stream<Arguments> createAbsentNamedOrder() {
         return Stream.of(
@@ -139,12 +146,12 @@ class OrdersTest {
                 )),
                 arguments(List.of(
                         new Order(ZERO_COKE.getName(), 10),
-                        new Order(RED_WINE.getName(), 10)
+                        new Order(CHOCOLATE_CAKE.getName(), 10)
                 )),
                 arguments(List.of(
                         new Order(ZERO_COKE.getName(), 3),
                         new Order(RED_WINE.getName(), 3),
-                        new Order(CHAMPAGNE.getName(), 5)
+                        new Order(CHOCOLATE_CAKE.getName(), 5)
                 ))
         );
     }
