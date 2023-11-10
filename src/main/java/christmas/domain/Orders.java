@@ -24,7 +24,10 @@ public final class Orders {
     }
 
     private void validateSameName(List<Order> orders) {
-        int distinctSize = new HashSet<Order>(orders).size();
+        int distinctSize = orders.stream()
+                .map(Order::name)
+                .collect(Collectors.toSet())
+                .size();
 
         if (orders.size() != distinctSize) {
             throw new IllegalArgumentException(getText(INVALID_ORDER));
