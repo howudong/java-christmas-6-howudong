@@ -52,14 +52,18 @@ public final class Orders {
     }
 
     private void validateOrderSize(List<Order> orders) {
-        if (orders.size() > MAX_ORDER_SIZE) {
+        int totalOrderSize = orders.stream()
+                .map(Order::quantity)
+                .reduce(Integer::sum)
+                .orElse(0);
+
+        if (totalOrderSize > MAX_ORDER_SIZE) {
             throw new IllegalArgumentException(getText(INVALID_ORDER));
         }
     }
 
     private void validateOnlyDrink(List<Order> orders) {
         Set<MenuType> orderMenuTypes = convertMenuTypes(orders);
-
         boolean isOnlyDrink = orderMenuTypes.stream()
                 .allMatch(e -> e.equals(MenuType.DRINK));
 
