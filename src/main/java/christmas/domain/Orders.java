@@ -21,6 +21,7 @@ public final class Orders {
         validateEmpty(orders);
         orders.forEach(this::validateExistProduct);
         validateSameName(orders);
+        validateEmptyQuantity(orders);
         validateOrderSize(orders);
         validateOnlyDrink(orders);
     }
@@ -47,6 +48,14 @@ public final class Orders {
                 .size();
 
         if (orders.size() != distinctSize) {
+            throw new IllegalArgumentException(getText(INVALID_ORDER));
+        }
+    }
+
+    private void validateEmptyQuantity(List<Order> orders) {
+        boolean containEmpty = orders.stream().anyMatch(e -> e.quantity() == 0);
+
+        if (containEmpty) {
             throw new IllegalArgumentException(getText(INVALID_ORDER));
         }
     }
