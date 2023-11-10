@@ -25,12 +25,16 @@
         - [x] 음료만 주문했을 시 예외를 발생시킨다.
         - [x] 주문 개수가 0개이면 예외를 발생시킨다.
 
-- DecemberCalandar : 12월의 달력표
+- Calendar : 매 월과 그 월의 Star 날을 표기한 List를 가지는 enum class
+    - [x] DECEMBER를 가진다.
+        - [x] 3, 10, 17, 24, 25, 31를 StarDay로 가진다.
+    - [x] 날짜를 매개변수로 넣으면 해당 날짜가 StarDay인지 아닌지 반환하는 함수를 가진다.
+    - [x] 해당 월의 마지막 일이 며칠인지를 반환하는 함수를 가진다.
 
 
 - DiscountStrategy : 할인 정책을 담은 인터페이스
     - [ ] discount() 함수를 가진다.
-        - [ ] 매개변수로 OrderProducts를 가진다.
+        - [ ] 매개변수로 Orders를 가진다.
         - [ ] 반환값은 총 할인 금액을 반환해야 한다.
 
 
