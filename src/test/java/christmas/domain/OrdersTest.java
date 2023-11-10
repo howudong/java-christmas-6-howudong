@@ -59,6 +59,15 @@ class OrdersTest {
                 .hasMessageContaining(ErrorHandler.INVALID_ORDER);
     }
 
+    @ParameterizedTest
+    @MethodSource("createZeroQuantityOrder")
+    @DisplayName("주문 개수가 0개인 것이 있다면 예외를 발생시킨다.")
+    void 주문_개수_0개_예외(List<Order> param) {
+        assertThatThrownBy(() -> new Orders(param))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining(ErrorHandler.INVALID_ORDER);
+    }
+
     @MethodSource
     private static Stream<Arguments> createAbsentNamedOrder() {
         return Stream.of(
@@ -117,6 +126,42 @@ class OrdersTest {
                 arguments(List.of(
                         new Order(ZERO_COKE.getName(), 3),
                         new Order(RED_WINE.getName(), 3),
+                        new Order(CHAMPAGNE.getName(), 5)
+                ))
+        );
+    }
+
+    @MethodSource
+    private static Stream<Arguments> createCorrectOrder() {
+        return Stream.of(
+                arguments(List.of(
+                        new Order(CHOCOLATE_CAKE.getName(), 1)
+                )),
+                arguments(List.of(
+                        new Order(ZERO_COKE.getName(), 10),
+                        new Order(RED_WINE.getName(), 10)
+                )),
+                arguments(List.of(
+                        new Order(ZERO_COKE.getName(), 3),
+                        new Order(RED_WINE.getName(), 3),
+                        new Order(CHAMPAGNE.getName(), 5)
+                ))
+        );
+    }
+
+    @MethodSource
+    private static Stream<Arguments> createZeroQuantityOrder() {
+        return Stream.of(
+                arguments(List.of(
+                        new Order(CHOCOLATE_CAKE.getName(), 0)
+                )),
+                arguments(List.of(
+                        new Order(ZERO_COKE.getName(), 0),
+                        new Order(RED_WINE.getName(), 10)
+                )),
+                arguments(List.of(
+                        new Order(ZERO_COKE.getName(), 3),
+                        new Order(RED_WINE.getName(), 0),
                         new Order(CHAMPAGNE.getName(), 5)
                 ))
         );
