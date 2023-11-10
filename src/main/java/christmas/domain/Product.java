@@ -1,6 +1,6 @@
 package christmas.domain;
 
-public enum Products {
+public enum Product {
     MUSHROOM_SOUP("양송이수프", 6_000L),
     TAPAS("타파스", 5_500L),
     CAESAR_SALAD("시저샐러드", 8_000L),
@@ -17,9 +17,13 @@ public enum Products {
     private final String name;
     private final Long price;
 
-    Products(String name, Long price) {
+    Product(String name, Long price) {
         this.name = name;
         this.price = price;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public Long getPrice() {
