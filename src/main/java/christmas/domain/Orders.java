@@ -16,6 +16,12 @@ public record Orders(List<OrderProduct> orderProducts, Calendar orderMonth, int 
         getValidateDate(orderMonth, orderDay);
     }
 
+    public Long getOriginalPrice() {
+        return orderProducts.stream()
+                .map(e -> Product.getPriceByName(e.name()) * e.quantity())
+                .reduce(Long::sum).orElse(0L);
+    }
+
     private void getValidateDate(Calendar orderMonth, int orderDay) {
         int lastDay = orderMonth.getLastDay();
         if (orderDay < FIRST_DAY || orderDay > lastDay) {
