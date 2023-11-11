@@ -7,7 +7,7 @@ public enum Product {
     T_BONE_STAKE("티본스테이크", 55_000L),
     BBQ_LIBS("바비큐립", 54_000L),
     SEA_FOOD_PASTA("해산물파스타", 35_000L),
-    CHRISTMAS_PASTA("크리스마스", 25_000L),
+    CHRISTMAS_PASTA("크리스마스파스타", 25_000L),
     CHOCOLATE_CAKE("초코케이크", 15_000L),
     ICECREAM("아이스크림", 5_000L),
     ZERO_COKE("제로콜라", 3_000L),
