@@ -1,9 +1,10 @@
 package christmas.domain.discounts;
 
 import christmas.domain.Calendar;
+import christmas.domain.DiscountStrategy;
 import christmas.domain.Orders;
 
-public final class XmasDiscountStrategy implements DiscountStrategy {
+final class XmasDiscountStrategy implements DiscountStrategy {
 
     private static final int DEAD_LINE = 25;
     private static final Long DEFAULT_DISCOUNT_PRICE = 1000L;

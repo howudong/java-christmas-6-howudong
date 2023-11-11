@@ -1,9 +1,6 @@
 package christmas.domain.discounts;
 
-import christmas.domain.Calendar;
-import christmas.domain.OrderProduct;
-import christmas.domain.Orders;
-import christmas.domain.Product;
+import christmas.domain.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

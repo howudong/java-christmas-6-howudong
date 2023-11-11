@@ -1,6 +1,4 @@
-package christmas.domain.discounts;
-
-import christmas.domain.Orders;
+package christmas.domain;
 
 public interface DiscountStrategy {
     Long discount(Orders orders);

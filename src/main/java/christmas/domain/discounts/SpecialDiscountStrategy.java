@@ -1,9 +1,10 @@
 package christmas.domain.discounts;
 
 import christmas.domain.Calendar;
+import christmas.domain.DiscountStrategy;
 import christmas.domain.Orders;
 
-public final class SpecialDiscountStrategy implements DiscountStrategy {
+final class SpecialDiscountStrategy implements DiscountStrategy {
 
     private static final long SPECIAL_DISCOUNT_PRICE = 1000L;
 
