@@ -9,8 +9,8 @@ public final class SpecialDiscountStrategy implements DiscountStrategy {
 
     @Override
     public Long discount(Orders orders) {
-        Calendar orderMonth = orders.getOrderMonth();
-        int orderDay = orders.getOrderDay();
+        Calendar orderMonth = orders.orderMonth();
+        int orderDay = orders.orderDay();
 
         return getDiscountPrice(orderMonth, orderDay);
     }

@@ -11,8 +11,8 @@ public final class XmasDiscountStrategy implements DiscountStrategy {
 
     @Override
     public Long discount(Orders orders) {
-        int orderDay = orders.getOrderDay();
-        Calendar orderMonth = orders.getOrderMonth();
+        int orderDay = orders.orderDay();
+        Calendar orderMonth = orders.orderMonth();
 
         return getDiscountPrice(orderDay, orderMonth);
     }

@@ -41,7 +41,7 @@ class XmasDiscountStrategyTest {
         //when
         Long discount = strategy.discount(orders);
         //then
-        Long expected = 1000L + (orders.getOrderDay() - 1) * 100L;
+        Long expected = 1000L + (orders.orderDay() - 1) * 100L;
         assertThat(discount).isEqualTo(expected);
     }
 

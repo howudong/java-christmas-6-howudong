@@ -7,27 +7,13 @@ import java.util.stream.Collectors;
 
 import static christmas.util.ErrorHandler.*;
 
-public final class Orders {
+public record Orders(List<OrderProduct> orderProducts, Calendar orderMonth, int orderDay) {
     private static final int MAX_ORDER_SIZE = 20;
     private static final int FIRST_DAY = 1;
-    private final List<OrderProduct> orderProducts;
-    private final Calendar orderMonth;
-    private final int orderDay;
 
-    public Orders(List<OrderProduct> orderProducts, Calendar orderMonth, int orderDay) {
+    public Orders {
         validateOrderProduct(orderProducts);
         getValidateDate(orderMonth, orderDay);
-        this.orderProducts = orderProducts;
-        this.orderMonth = orderMonth;
-        this.orderDay = orderDay;
-    }
-
-    public Calendar getOrderMonth() {
-        return orderMonth;
-    }
-
-    public int getOrderDay() {
-        return orderDay;
     }
 
     private void getValidateDate(Calendar orderMonth, int orderDay) {
