@@ -18,7 +18,7 @@ class OrdersTest {
     @Test
     @DisplayName("Product에 없는 메뉴의 이름이 포함되어 있다면 예외를 발생시킨다.")
     void null_Order_예외() {
-        assertThatThrownBy(() -> new Orders(List.of()))
+        assertThatThrownBy(() -> new Orders(List.of(), Calendar.DECEMBER, 1))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining(ErrorHandler.INVALID_ORDER);
     }
@@ -26,8 +26,8 @@ class OrdersTest {
     @ParameterizedTest
     @MethodSource("createAbsentNamedOrder")
     @DisplayName("Product에 없는 메뉴의 이름이 포함되어 있다면 예외를 발생시킨다.")
-    void 해당_메뉴_없음_예외(List<Order> orders) {
-        assertThatThrownBy(() -> new Orders(orders))
+    void 해당_메뉴_없음_예외(List<OrderProduct> orderProducts) {
+        assertThatThrownBy(() -> new Orders(orderProducts, Calendar.DECEMBER, 1))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining(ErrorHandler.INVALID_ORDER);
     }
@@ -35,8 +35,8 @@ class OrdersTest {
     @ParameterizedTest
     @MethodSource("createSameOrder")
     @DisplayName("같은 이름의 메뉴를 주문하면 예외가 발생한다.")
-    void 메뉴_중복_예외(List<Order> param) {
-        assertThatThrownBy(() -> new Orders(param))
+    void 메뉴_중복_예외(List<OrderProduct> param) {
+        assertThatThrownBy(() -> new Orders(param, Calendar.DECEMBER, 1))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining(ErrorHandler.INVALID_ORDER);
     }
@@ -44,8 +44,8 @@ class OrdersTest {
     @ParameterizedTest
     @MethodSource("createOverSizeOrder")
     @DisplayName("주문 개수가 20개가 넘어가면 예외를 발생시킨다.")
-    void 수량_초과_예외(List<Order> param) {
-        assertThatThrownBy(() -> new Orders(param))
+    void 수량_초과_예외(List<OrderProduct> param) {
+        assertThatThrownBy(() -> new Orders(param, Calendar.DECEMBER, 1))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining(ErrorHandler.INVALID_ORDER);
     }
@@ -53,8 +53,8 @@ class OrdersTest {
     @ParameterizedTest
     @MethodSource("createOnlyDrinkOrder")
     @DisplayName("DRINK만 주문하면 예외가 발생한다.")
-    void 오직_마실것_예외(List<Order> param) {
-        assertThatThrownBy(() -> new Orders(param))
+    void 오직_마실것_예외(List<OrderProduct> param) {
+        assertThatThrownBy(() -> new Orders(param, Calendar.DECEMBER, 1))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining(ErrorHandler.INVALID_ORDER);
     }
@@ -62,8 +62,8 @@ class OrdersTest {
     @ParameterizedTest
     @MethodSource("createZeroQuantityOrder")
     @DisplayName("주문 개수가 0개인 것이 있다면 예외를 발생시킨다.")
-    void 주문_개수_0개_예외(List<Order> param) {
-        assertThatThrownBy(() -> new Orders(param))
+    void 주문_개수_0개_예외(List<OrderProduct> param) {
+        assertThatThrownBy(() -> new Orders(param, Calendar.DECEMBER, 1))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining(ErrorHandler.INVALID_ORDER);
     }
@@ -71,18 +71,28 @@ class OrdersTest {
     @ParameterizedTest
     @MethodSource("createCorrectOrder")
     @DisplayName("올바른 주문이 들어온다면 예외가 발생하지 않는다..")
-    void 주문_(List<Order> param) {
-        new Orders(param);
+    void 주문_올바름(List<OrderProduct> param) {
+        new Orders(param, Calendar.DECEMBER, 1);
+    }
+
+    @ParameterizedTest
+    @MethodSource("createInvalidDate")
+    @DisplayName("올바른 주문이 들어온다면 예외가 발생하지 않는다..")
+    void 주문_올바름(int day) {
+        assertThatThrownBy(() -> new Orders(List.of(new OrderProduct(CHOCOLATE_CAKE.getName(), 1)),
+                Calendar.DECEMBER, day))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining(ErrorHandler.INVALID_DATE);
     }
 
     @MethodSource
     private static Stream<Arguments> createAbsentNamedOrder() {
         return Stream.of(
                 arguments(List.of(
-                        new Order("없는 메뉴", 1))),
+                        new OrderProduct("없는 메뉴", 1))),
                 arguments(List.of(
-                        new Order("없는 메뉴", 1),
-                        new Order(BBQ_LIBS.getName(), 2))
+                        new OrderProduct("없는 메뉴", 1),
+                        new OrderProduct(BBQ_LIBS.getName(), 2))
                 ));
     }
 
@@ -90,12 +100,12 @@ class OrdersTest {
     private static Stream<Arguments> createSameOrder() {
         return Stream.of(
                 arguments(List.of(
-                        new Order(BBQ_LIBS.getName(), 2),
-                        new Order(BBQ_LIBS.getName(), 1))
+                        new OrderProduct(BBQ_LIBS.getName(), 2),
+                        new OrderProduct(BBQ_LIBS.getName(), 1))
                 ),
                 arguments(List.of(
-                        new Order(ZERO_COKE.getName(), 2),
-                        new Order(ZERO_COKE.getName(), 2))
+                        new OrderProduct(ZERO_COKE.getName(), 2),
+                        new OrderProduct(ZERO_COKE.getName(), 2))
                 )
         );
     }
@@ -104,18 +114,18 @@ class OrdersTest {
     private static Stream<Arguments> createOverSizeOrder() {
         return Stream.of(
                 arguments(List.of(
-                        new Order(BBQ_LIBS.getName(), 21)
+                        new OrderProduct(BBQ_LIBS.getName(), 21)
                 )),
                 arguments(List.of(
-                        new Order(ZERO_COKE.getName(), 10),
-                        new Order(BBQ_LIBS.getName(), 10),
-                        new Order(SEA_FOOD_PASTA.getName(), 1)
+                        new OrderProduct(ZERO_COKE.getName(), 10),
+                        new OrderProduct(BBQ_LIBS.getName(), 10),
+                        new OrderProduct(SEA_FOOD_PASTA.getName(), 1)
                 )),
                 arguments(List.of(
-                        new Order(ZERO_COKE.getName(), 3),
-                        new Order(BBQ_LIBS.getName(), 3),
-                        new Order(SEA_FOOD_PASTA.getName(), 5),
-                        new Order(CHOCOLATE_CAKE.getName(), 11)
+                        new OrderProduct(ZERO_COKE.getName(), 3),
+                        new OrderProduct(BBQ_LIBS.getName(), 3),
+                        new OrderProduct(SEA_FOOD_PASTA.getName(), 5),
+                        new OrderProduct(CHOCOLATE_CAKE.getName(), 11)
                 ))
         );
     }
@@ -124,16 +134,16 @@ class OrdersTest {
     private static Stream<Arguments> createOnlyDrinkOrder() {
         return Stream.of(
                 arguments(List.of(
-                        new Order(ZERO_COKE.getName(), 1)
+                        new OrderProduct(ZERO_COKE.getName(), 1)
                 )),
                 arguments(List.of(
-                        new Order(ZERO_COKE.getName(), 10),
-                        new Order(RED_WINE.getName(), 10)
+                        new OrderProduct(ZERO_COKE.getName(), 10),
+                        new OrderProduct(RED_WINE.getName(), 10)
                 )),
                 arguments(List.of(
-                        new Order(ZERO_COKE.getName(), 3),
-                        new Order(RED_WINE.getName(), 3),
-                        new Order(CHAMPAGNE.getName(), 5)
+                        new OrderProduct(ZERO_COKE.getName(), 3),
+                        new OrderProduct(RED_WINE.getName(), 3),
+                        new OrderProduct(CHAMPAGNE.getName(), 5)
                 ))
         );
     }
@@ -142,16 +152,16 @@ class OrdersTest {
     private static Stream<Arguments> createCorrectOrder() {
         return Stream.of(
                 arguments(List.of(
-                        new Order(CHOCOLATE_CAKE.getName(), 1)
+                        new OrderProduct(CHOCOLATE_CAKE.getName(), 1)
                 )),
                 arguments(List.of(
-                        new Order(ZERO_COKE.getName(), 10),
-                        new Order(CHOCOLATE_CAKE.getName(), 10)
+                        new OrderProduct(ZERO_COKE.getName(), 10),
+                        new OrderProduct(CHOCOLATE_CAKE.getName(), 10)
                 )),
                 arguments(List.of(
-                        new Order(ZERO_COKE.getName(), 3),
-                        new Order(RED_WINE.getName(), 3),
-                        new Order(CHOCOLATE_CAKE.getName(), 5)
+                        new OrderProduct(ZERO_COKE.getName(), 3),
+                        new OrderProduct(RED_WINE.getName(), 3),
+                        new OrderProduct(CHOCOLATE_CAKE.getName(), 5)
                 ))
         );
     }
@@ -160,17 +170,26 @@ class OrdersTest {
     private static Stream<Arguments> createZeroQuantityOrder() {
         return Stream.of(
                 arguments(List.of(
-                        new Order(CHOCOLATE_CAKE.getName(), 0)
+                        new OrderProduct(CHOCOLATE_CAKE.getName(), 0)
                 )),
                 arguments(List.of(
-                        new Order(ZERO_COKE.getName(), 0),
-                        new Order(RED_WINE.getName(), 10)
+                        new OrderProduct(ZERO_COKE.getName(), 0),
+                        new OrderProduct(RED_WINE.getName(), 10)
                 )),
                 arguments(List.of(
-                        new Order(ZERO_COKE.getName(), 3),
-                        new Order(RED_WINE.getName(), 0),
-                        new Order(CHAMPAGNE.getName(), 5)
+                        new OrderProduct(ZERO_COKE.getName(), 3),
+                        new OrderProduct(RED_WINE.getName(), 0),
+                        new OrderProduct(CHAMPAGNE.getName(), 5)
                 ))
+        );
+    }
+
+    @MethodSource
+    private static Stream<Arguments> createInvalidDate() {
+        return Stream.of(
+                arguments(32),
+                arguments(0),
+                arguments(-1)
         );
     }
 }
