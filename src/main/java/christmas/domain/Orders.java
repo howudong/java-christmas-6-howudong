@@ -22,6 +22,14 @@ public final class Orders {
         this.orderDay = orderDay;
     }
 
+    public Calendar getOrderMonth() {
+        return orderMonth;
+    }
+
+    public int getOrderDay() {
+        return orderDay;
+    }
+
     private void getValidateDate(Calendar orderMonth, int orderDay) {
         int lastDay = orderMonth.getLastDay();
         if (orderDay < FIRST_DAY || orderDay > lastDay) {
