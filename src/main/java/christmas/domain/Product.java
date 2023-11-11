@@ -1,5 +1,11 @@
 package christmas.domain;
 
+import christmas.util.ErrorHandler;
+
+import java.util.Arrays;
+
+import static christmas.util.ErrorHandler.INVALID_ORDER;
+
 public enum Product {
     MUSHROOM_SOUP("양송이수프", 6_000L),
     TAPAS("타파스", 5_500L),
@@ -26,7 +32,19 @@ public enum Product {
         return name;
     }
 
-    public Long getPrice() {
-        return price;
+    public static Long getPriceByName(String product) {
+        Product matchedProduct = findSameProduct(product);
+        if (matchedProduct == null) {
+            throw new IllegalArgumentException(ErrorHandler.getText(INVALID_ORDER));
+        }
+
+        return matchedProduct.price;
+    }
+
+    private static Product findSameProduct(String product) {
+        return Arrays.stream(values())
+                .filter(e -> e.name.equals(product))
+                .findAny()
+                .orElse(null);
     }
 }
