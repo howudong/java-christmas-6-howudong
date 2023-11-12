@@ -1,13 +1,12 @@
 package christmas.dto;
 
 import java.util.Map;
-import java.util.Objects;
 
 public final class OrderDto {
     private OrderDto() {
     }
 
-    public static final class Input {
+    public static final class Input extends InputDto {
         private Map<String, Integer> orderProducts;
         private int day;
 
@@ -26,30 +25,29 @@ public final class OrderDto {
         public int getDay() {
             return day;
         }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (obj == this) return true;
-            if (obj == null || obj.getClass() != this.getClass()) return false;
-            var that = (Input) obj;
-            return Objects.equals(this.orderProducts, that.orderProducts) &&
-                    this.day == that.day;
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(orderProducts, day);
-        }
-
-        @Override
-        public String toString() {
-            return "Input[" +
-                    "orderProducts=" + orderProducts + ", " +
-                    "day=" + day + ']';
-        }
-
     }
 
-    public record Output(Map<String, Integer> orderProducts, int day) {
+    public static final class Output extends OutputDto {
+        private final Map<String, Integer> orderProducts;
+        private final int day;
+        private final Long originalTotalPrice;
+
+        public Output(Map<String, Integer> orderProducts, int day, Long originalTotalPrice) {
+            this.orderProducts = orderProducts;
+            this.day = day;
+            this.originalTotalPrice = originalTotalPrice;
+        }
+
+        public Map<String, Integer> orderProducts() {
+            return orderProducts;
+        }
+
+        public int day() {
+            return day;
+        }
+
+        public Long originalTotalPrice() {
+            return originalTotalPrice;
+        }
     }
 }
