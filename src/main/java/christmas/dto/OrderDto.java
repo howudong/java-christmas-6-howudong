@@ -9,6 +9,6 @@ public final class OrderDto {
     public record Input(Map<String, Integer> orderProducts, int day) {
     }
 
-    public record Output(Map<String, Integer> orderProducts, int day, Long originalTotalPrice) {
+    public record Output(Map<String, Integer> orderProducts, int day) {
     }
 }
