@@ -10,6 +10,8 @@ import static christmas.util.ErrorHandler.*;
 public record Orders(List<OrderProduct> orderProducts, Calendar orderMonth, int orderDay) {
     private static final int MAX_ORDER_SIZE = 20;
     private static final int FIRST_DAY = 1;
+    private static final long TOTAL_GOAL_PRICE = 120_000L;
+    private static final Product REWARD_PRODUCT = Product.CHAMPAGNE;
 
     public Orders {
         validateOrderProduct(orderProducts);
@@ -21,6 +23,15 @@ public record Orders(List<OrderProduct> orderProducts, Calendar orderMonth, int 
                 .map(e -> Product.getPriceByName(e.name()) * e.quantity())
                 .reduce(Long::sum)
                 .orElse(0L);
+    }
+
+    public Product getBonusProduct() {
+        Long totalPrice = getOriginalPrice();
+        
+        if (totalPrice >= TOTAL_GOAL_PRICE) {
+            return REWARD_PRODUCT;
+        }
+        return null;
     }
 
     private void getValidateDate(Calendar orderMonth, int orderDay) {

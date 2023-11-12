@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static christmas.domain.Product.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
@@ -83,6 +84,30 @@ class OrdersTest {
                 Calendar.DECEMBER, day))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining(ErrorHandler.INVALID_DATE);
+    }
+
+    @Test
+    @DisplayName("할인전 금액이 120,000원 미만이라면 null을 반환한다.")
+    void 증정_상품_없음() {
+        //given
+        Orders orders = new Orders(List.of(new OrderProduct(Product.SEA_FOOD_PASTA.getName(), 1)),
+                Calendar.DECEMBER, 1);
+        //when
+        Product bonusProduct = orders.getBonusProduct();
+        //then
+        assertThat(bonusProduct).isNull();
+    }
+
+    @Test
+    @DisplayName("할인전 금액이 120,000원 이상이라면 샴페인을 반환한다.")
+    void 증정_상품_있음() {
+        //given
+        Orders orders = new Orders(List.of(new OrderProduct(Product.SEA_FOOD_PASTA.getName(), 10)),
+                Calendar.DECEMBER, 1);
+        //when
+        Product bonusProduct = orders.getBonusProduct();
+        //then
+        assertThat(bonusProduct).isEqualTo(Product.CHAMPAGNE);
     }
 
     @MethodSource
