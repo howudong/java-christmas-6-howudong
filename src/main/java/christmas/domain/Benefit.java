@@ -1,5 +1,7 @@
 package christmas.domain;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 public final class Benefit {
@@ -15,7 +17,23 @@ public final class Benefit {
     }
 
     public Long getBenefitPrice() {
+        if (rewardProduct == null) {
+            return sumAllDiscount();
+        }
         return sumAllDiscount() + rewardProduct.getPrice();
+    }
+
+    public Long discountTotalPrice() {
+        return originTotalPrice - getBenefitPrice();
+    }
+
+    public Map<String, Long> getDiscounts() {
+        Map<String, Long> copiedDiscounts = new HashMap<>(discounts);
+
+        if (rewardProduct != null) {
+            copiedDiscounts.put("증정 상품", rewardProduct.getPrice());
+        }
+        return Collections.unmodifiableMap(copiedDiscounts);
     }
 
     public Product getRewardProduct() {
@@ -25,6 +43,24 @@ public final class Benefit {
 
         if (originTotalPrice >= TOTAL_GOAL_PRICE) {
             return REWARD_PRODUCT;
+        }
+        return null;
+    }
+
+    public BadgeType getRewardBadge() {
+        Long benefitPrice = getBenefitPrice();
+        return getBadgeType(benefitPrice);
+    }
+
+    private BadgeType getBadgeType(Long benefitPrice) {
+        if (benefitPrice >= BadgeType.SANTA.getGoalPrice()) {
+            return BadgeType.SANTA;
+        }
+        if (benefitPrice >= BadgeType.TREE.getGoalPrice()) {
+            return BadgeType.TREE;
+        }
+        if (benefitPrice >= BadgeType.STAR.getGoalPrice()) {
+            return BadgeType.STAR;
         }
         return null;
     }
