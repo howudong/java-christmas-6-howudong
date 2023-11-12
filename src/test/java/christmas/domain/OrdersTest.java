@@ -70,15 +70,15 @@ class OrdersTest {
 
     @ParameterizedTest
     @MethodSource("createCorrectOrder")
-    @DisplayName("올바른 주문이 들어온다면 예외가 발생하지 않는다..")
+    @DisplayName("올바른 주문이 들어온다면 예외가 발생하지 않는다.")
     void 주문_올바름(List<OrderProduct> param) {
         new Orders(param, Calendar.DECEMBER, 1);
     }
 
     @ParameterizedTest
     @MethodSource("createInvalidDate")
-    @DisplayName("올바른 주문이 들어온다면 예외가 발생하지 않는다..")
-    void 주문_올바름(int day) {
+    @DisplayName("날짜가 틀렸다면 예이가 발생한다.")
+    void 날짜_틀림(int day) {
         assertThatThrownBy(() -> new Orders(List.of(new OrderProduct(CHOCOLATE_CAKE.getName(), 1)),
                 Calendar.DECEMBER, day))
                 .isInstanceOf(IllegalArgumentException.class)
