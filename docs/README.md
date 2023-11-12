@@ -88,10 +88,10 @@
 
 ## 서비스
 
-- [ ] OrderService : 고객의 주문을 생성하는 서비스
-    - [ ] `List<OrdurProduct>` 가 필요하다.
-    - [ ] 주문 월/일이 필요하다.
-    - [ ] OrderDTO.output을 생성하는 함수를 가진다.
+- [x] OrderService : 고객의 주문을 생성하는 서비스
+    - [x] `List<OrdurProduct>` 가 필요하다.
+    - [x] 주문 일이 필요하다.
+    - [x] OrderDTO.output을 생성하는 함수를 가진다.
 
 
 - [ ] BenefitService
