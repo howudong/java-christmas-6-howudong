@@ -18,10 +18,10 @@ public final class OrderService {
         Map<String, Integer> order = dto.getOrderProducts();
         int orderDay = dto.getDay();
 
-        return new OrderDto.Output(order, orderDay);
+        return new OrderDto.Output(order, orderDay, getOriginalTotalPrice(dto));
     }
 
-    public Long getOriginalTotalPrice(OrderDto.Input dto) {
+    private Long getOriginalTotalPrice(OrderDto.Input dto) {
         List<OrderProduct> orders = convert(dto.getOrderProducts());
         int orderDay = dto.getDay();
         return getOrders(orders, orderDay).getOriginalPrice();
