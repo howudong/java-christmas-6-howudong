@@ -32,6 +32,10 @@ public enum Product {
         return name;
     }
 
+    public Long getPrice() {
+        return price;
+    }
+
     public static Long getPriceByName(String product) {
         Product matchedProduct = findSameProduct(product);
         if (matchedProduct == null) {

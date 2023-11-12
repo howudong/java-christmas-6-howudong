@@ -19,7 +19,8 @@ public record Orders(List<OrderProduct> orderProducts, Calendar orderMonth, int 
     public Long getOriginalPrice() {
         return orderProducts.stream()
                 .map(e -> Product.getPriceByName(e.name()) * e.quantity())
-                .reduce(Long::sum).orElse(0L);
+                .reduce(Long::sum)
+                .orElse(0L);
     }
 
     private void getValidateDate(Calendar orderMonth, int orderDay) {
