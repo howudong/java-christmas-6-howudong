@@ -138,6 +138,24 @@ class OrdersTest {
     }
 
     @MethodSource
+    private static Stream<Arguments> createAbsentNamedOrder() {
+        return Stream.of(
+                arguments(List.of(
+                        new OrderProduct("없는 메뉴", 1)
+                )),
+                arguments(List.of(
+                        new OrderProduct(ZERO_COKE.getName(), 10),
+                        new OrderProduct("없는 메뉴", 10)
+                )),
+                arguments(List.of(
+                        new OrderProduct(ZERO_COKE.getName(), 3),
+                        new OrderProduct("없는 메뉴", 3),
+                        new OrderProduct(CHOCOLATE_CAKE.getName(), 5)
+                ))
+        );
+    }
+
+    @MethodSource
     private static Stream<Arguments> createCorrectOrder() {
         return Stream.of(
                 arguments(List.of(
