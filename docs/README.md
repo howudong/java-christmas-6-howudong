@@ -92,12 +92,12 @@
     - [x] `List<OrdurProduct>` 가 필요하다.
     - [x] 주문 일이 필요하다.
     - [x] OrderDTO.output을 생성하는 함수를 가진다.
+    - [x] 할인전 총 금액을 반환하는 함수를 가진다.
 
-
-- [ ] BenefitService
-    - [ ] DiscountAdapter을 생성자 주입 받는다.
-    - [ ] Orders를 생성자 주입받는다.
-    - [ ] BenefitDTO를 생성하는 함수를 가진다.
+- [x] BenefitService
+    - [x] DiscountCalculator을 생성자 주입 받는다.
+    - [x] Orders를 생성자 주입받는다.
+    - [x] BenefitDTO를 생성하는 함수를 가진다.
 
 ## DTO
 
