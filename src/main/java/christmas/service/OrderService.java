@@ -10,16 +10,20 @@ import java.util.List;
 import java.util.Map;
 
 public final class OrderService {
+    public OrderDto.Input createOrderInput() {
+        return new OrderDto.Input();
+    }
+
     public OrderDto.Output createOrderOutput(OrderDto.Input dto) {
-        Map<String, Integer> order = dto.orderProducts();
-        int orderDay = dto.day();
+        Map<String, Integer> order = dto.getOrderProducts();
+        int orderDay = dto.getDay();
 
         return new OrderDto.Output(order, orderDay);
     }
 
     public Long getOriginalTotalPrice(OrderDto.Input dto) {
-        List<OrderProduct> orders = convert(dto.orderProducts());
-        int orderDay = dto.day();
+        List<OrderProduct> orders = convert(dto.getOrderProducts());
+        int orderDay = dto.getDay();
         return getOrders(orders, orderDay).getOriginalPrice();
     }
 
