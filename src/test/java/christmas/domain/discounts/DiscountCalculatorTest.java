@@ -1,6 +1,9 @@
 package christmas.domain.discounts;
 
-import christmas.domain.*;
+import christmas.domain.Calendar;
+import christmas.domain.OrderProduct;
+import christmas.domain.Orders;
+import christmas.domain.Product;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -82,58 +85,6 @@ class DiscountCalculatorTest {
         Map<String, Long> availableDiscounts = strategy.getAvailableDiscounts();
         //then
         assertThat(availableDiscounts).containsKey("특별 할인");
-    }
-
-    @Test
-    @DisplayName("혜택 금액이 20,000원 이상이라면 산타 배지만 반환해야한다.")
-    void 산타_배지() {
-        //given
-        Orders orders = new Orders(List.of(new OrderProduct(Product.SEA_FOOD_PASTA.getName(), 10)),
-                Calendar.DECEMBER, 1);
-        DiscountCalculator strategy = new DiscountCalculator(orders);
-        //when
-        BadgeType rewardBadge = strategy.getRewardBadge();
-        //then
-        assertThat(rewardBadge).isEqualTo(BadgeType.SANTA);
-    }
-
-    @Test
-    @DisplayName("혜택 금액이 20,000원 미만, 10000원 이상이라면 트리 배지만 반환해야한다.")
-    void 트리_배지() {
-        //given
-        Orders orders = new Orders(List.of(new OrderProduct(Product.SEA_FOOD_PASTA.getName(), 5)),
-                Calendar.DECEMBER, 1);
-        DiscountCalculator strategy = new DiscountCalculator(orders);
-        //when
-        BadgeType rewardBadge = strategy.getRewardBadge();
-        //then
-        assertThat(rewardBadge).isEqualTo(BadgeType.TREE);
-    }
-
-    @Test
-    @DisplayName("혜택 금액이 10,000원 미만, 5000원 이상이라면 트리 배지만 반환해야한다.")
-    void 스타_배지() {
-        //given
-        Orders orders = new Orders(List.of(new OrderProduct(Product.SEA_FOOD_PASTA.getName(), 3)),
-                Calendar.DECEMBER, 1);
-        DiscountCalculator strategy = new DiscountCalculator(orders);
-        //when
-        BadgeType rewardBadge = strategy.getRewardBadge();
-        //then
-        assertThat(rewardBadge).isEqualTo(BadgeType.STAR);
-    }
-
-    @Test
-    @DisplayName("혜택 금액이 5000원 미만이라면 null을 반환해야한다.")
-    void 배지_없음() {
-        //given
-        Orders orders = new Orders(List.of(new OrderProduct(Product.CHOCOLATE_CAKE.getName(), 1)),
-                Calendar.DECEMBER, 1);
-        DiscountCalculator strategy = new DiscountCalculator(orders);
-        //when
-        BadgeType rewardBadge = strategy.getRewardBadge();
-        //then
-        assertThat(rewardBadge).isNull();
     }
 
     @MethodSource

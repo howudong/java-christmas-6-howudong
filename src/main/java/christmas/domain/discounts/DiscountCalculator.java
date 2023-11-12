@@ -1,6 +1,5 @@
 package christmas.domain.discounts;
 
-import christmas.domain.BadgeType;
 import christmas.domain.Calendar;
 import christmas.domain.DiscountStrategy;
 import christmas.domain.Orders;
@@ -33,26 +32,6 @@ public final class DiscountCalculator {
         Map<String, Long> discounts = getNotZeroDiscountResults();
         totalDiscountPrice = sumAllDiscount(discounts);
         return discounts;
-    }
-
-    public BadgeType getRewardBadge() {
-        if (totalDiscountPrice == null) {
-            getAvailableDiscounts();
-        }
-        return getBadgeType();
-    }
-
-    private BadgeType getBadgeType() {
-        if (totalDiscountPrice >= BadgeType.SANTA.getGoalPrice()) {
-            return BadgeType.SANTA;
-        }
-        if (totalDiscountPrice >= BadgeType.TREE.getGoalPrice()) {
-            return BadgeType.TREE;
-        }
-        if (totalDiscountPrice >= BadgeType.STAR.getGoalPrice()) {
-            return BadgeType.STAR;
-        }
-        return null;
     }
 
     private Map<String, Long> getNotZeroDiscountResults() {

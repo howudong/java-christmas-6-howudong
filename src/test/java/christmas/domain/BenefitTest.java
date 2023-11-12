@@ -1,16 +1,12 @@
 package christmas.domain;
 
+import christmas.domain.discounts.DiscountCalculator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.List;
-import java.util.stream.Stream;
 
-import static christmas.domain.Product.BBQ_LIBS;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 class BenefitTest {
     @Test
@@ -39,15 +35,59 @@ class BenefitTest {
         assertThat(bonusProduct).isEqualTo(Product.CHAMPAGNE);
     }
 
-    @MethodSource
-    private static Stream<Arguments> createAbsentNamedOrder() {
-        return Stream.of(
-                arguments(List.of(
-                        new OrderProduct("없는 메뉴", 1))),
-                arguments(List.of(
-                        new OrderProduct("없는 메뉴", 1),
-                        new OrderProduct(BBQ_LIBS.getName(), 2))
-                ));
+    @Test
+    @DisplayName("혜택 금액이 20,000원 이상이라면 산타 배지만 반환해야한다.")
+    void 산타_배지() {
+        //given
+        Orders orders = new Orders(List.of(new OrderProduct(Product.SEA_FOOD_PASTA.getName(), 10)),
+                Calendar.DECEMBER, 1);
+        DiscountCalculator strategy = new DiscountCalculator(orders);
+        Benefit benefit = new Benefit(orders.getOriginalPrice(), strategy.getAvailableDiscounts());
+        //when
+        BadgeType rewardBadge = benefit.getRewardBadge();
+        //then
+        assertThat(rewardBadge).isEqualTo(BadgeType.SANTA);
     }
 
+    @Test
+    @DisplayName("혜택 금액이 20,000원 미만, 10000원 이상이라면 트리 배지만 반환해야한다.")
+    void 트리_배지() {
+        //given
+        Orders orders = new Orders(List.of(new OrderProduct(Product.SEA_FOOD_PASTA.getName(), 5)),
+                Calendar.DECEMBER, 1);
+        DiscountCalculator strategy = new DiscountCalculator(orders);
+        Benefit benefit = new Benefit(orders.getOriginalPrice(), strategy.getAvailableDiscounts());
+        //when
+        BadgeType rewardBadge = benefit.getRewardBadge();
+        //then
+        assertThat(rewardBadge).isEqualTo(BadgeType.TREE);
+    }
+
+    @Test
+    @DisplayName("혜택 금액이 10,000원 미만, 5000원 이상이라면 트리 배지만 반환해야한다.")
+    void 스타_배지() {
+        //given
+        Orders orders = new Orders(List.of(new OrderProduct(Product.SEA_FOOD_PASTA.getName(), 3)),
+                Calendar.DECEMBER, 1);
+        DiscountCalculator strategy = new DiscountCalculator(orders);
+        Benefit benefit = new Benefit(orders.getOriginalPrice(), strategy.getAvailableDiscounts());
+        //when
+        BadgeType rewardBadge = benefit.getRewardBadge();
+        //then
+        assertThat(rewardBadge).isEqualTo(BadgeType.STAR);
+    }
+
+    @Test
+    @DisplayName("혜택 금액이 5000원 미만이라면 null을 반환해야한다.")
+    void 배지_없음() {
+        //given
+        Orders orders = new Orders(List.of(new OrderProduct(Product.SEA_FOOD_PASTA.getName(), 1)),
+                Calendar.DECEMBER, 1);
+        DiscountCalculator strategy = new DiscountCalculator(orders);
+        Benefit benefit = new Benefit(orders.getOriginalPrice(), strategy.getAvailableDiscounts());
+        //when
+        BadgeType rewardBadge = benefit.getRewardBadge();
+        //then
+        assertThat(rewardBadge).isNull();
+    }
 }
