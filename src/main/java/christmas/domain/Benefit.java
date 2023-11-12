@@ -12,14 +12,14 @@ public final class Benefit {
     private final Map<String, Long> discounts;
     private Product rewardProduct;
 
-    public Long getDiscountPrice() {
-        return originTotalPrice - getBenefitPrice();
-    }
-
     public Benefit(Long originTotalPrice, Map<String, Long> discounts) {
         this.originTotalPrice = originTotalPrice;
         this.discounts = discounts;
         rewardProduct = getRewardProduct();
+    }
+
+    public Long getDiscountPrice() {
+        return originTotalPrice - sumAllDiscount();
     }
 
     public Map<String, Long> getDiscounts() {
