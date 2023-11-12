@@ -1,5 +1,7 @@
 package christmas.util;
 
+import christmas.view.ErrorHandlerView;
+
 public final class ErrorHandler {
     private static final String PREFIX = "[ERROR]";
 
@@ -13,7 +15,7 @@ public final class ErrorHandler {
         try {
             method.run();
         } catch (IllegalArgumentException e) {
-            System.out.println(PREFIX + errorMessage);
+            ErrorHandlerView.view(PREFIX + errorMessage);
             tryUntilNoError(method, errorMessage);
         }
     }
