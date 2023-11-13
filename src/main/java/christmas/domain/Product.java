@@ -36,8 +36,8 @@ public enum Product {
         return price;
     }
 
-    public static Long getPriceByName(String product) {
-        Product matchedProduct = findSameProduct(product);
+    public static Long getPriceByName(String name) {
+        Product matchedProduct = findSameProduct(name);
         if (matchedProduct == null) {
             throw new IllegalArgumentException(ErrorHandler.getText(INVALID_ORDER));
         }
