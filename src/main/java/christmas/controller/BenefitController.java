@@ -1,9 +1,12 @@
 package christmas.controller;
 
+import christmas.dto.BenefitDto;
+import christmas.dto.DiscountDto;
 import christmas.dto.InputDto;
 import christmas.dto.OutputDto;
 import christmas.service.BenefitService;
 import christmas.service.DiscountService;
+import christmas.view.Parameter;
 import christmas.view.outputview.OutputView;
 
 import java.util.Map;
@@ -21,6 +24,14 @@ public final class BenefitController implements Controller {
 
     @Override
     public void process(Map<String, InputDto> inputs, Map<String, OutputDto> outputs) {
+        initOutputs(outputs);
+        outputView.view(inputs, outputs);
+    }
 
+    private void initOutputs(Map<String, OutputDto> outputs) {
+        BenefitDto benefitDto = benefitService.createBenefitDto();
+        DiscountDto discountDto = discountService.createDiscountDto();
+        outputs.put(Parameter.Output.BENEFIT_DTO, benefitDto);
+        outputs.put(Parameter.Output.DISCOUNT_DTO, discountDto);
     }
 }
