@@ -10,7 +10,6 @@ import christmas.dto.OutputDto;
 import java.util.Map;
 
 public final class BenefitOutputView implements OutputView {
-
     private static final String EMPTY_TEXT = "없음";
 
     @Override
@@ -38,27 +37,37 @@ public final class BenefitOutputView implements OutputView {
         System.out.println("<증정 메뉴>");
         Product product = dto.rewardProduct();
         if (product == null) {
-            System.out.println(EMPTY_TEXT);
+            printWithLineBreaking(EMPTY_TEXT);
             return;
         }
-        System.out.println(product.getName() + " " + product.getPrice() + "개\n");
+        // TODO 증정메뉴 반환할때 (상품 이름, 개수) 쌍으로 받도록 하기.
+        String print = product.getName() + " " + "1개";
+        printWithLineBreaking(print);
     }
 
     private void viewDiscounts(DiscountDto dto) {
         System.out.println("<혜택 내역>");
         Map<String, Long> discounts = dto.getDiscounts();
         if (discounts.isEmpty()) {
-            System.out.println(EMPTY_TEXT + "\n");
+            printWithLineBreaking(EMPTY_TEXT);
             return;
         }
-        discounts.forEach((key, value) -> System.out.println(key + " " + convertDiscountPay(value)));
+        discounts.forEach((key, value) -> System.out.println(key + ": " + convertDiscountPay(value)));
         System.out.println();
     }
 
     private void viewBenefitPrice(BenefitDto dto) {
         System.out.println("<총혜택 금액>");
         Long benefitPrice = dto.getBenefitPrice();
-        System.out.println(convertDiscountPay(benefitPrice));
+        if (benefitPrice <= 0L) {
+            printWithLineBreaking(convertToPay(benefitPrice));
+            return;
+        }
+        printWithLineBreaking(convertDiscountPay(benefitPrice));
+    }
+
+    private void printWithLineBreaking(String benefitPrice) {
+        System.out.println(benefitPrice);
         System.out.println();
     }
 
@@ -75,7 +84,8 @@ public final class BenefitOutputView implements OutputView {
 
     private void viewTotalDiscountPrice(DiscountDto dto) {
         System.out.println("<할인 후 예상 결제 금액>");
-        System.out.println(convertToPay(dto.getTotalDiscountPrice()));
+        String formattedPrice = convertToPay(dto.getTotalDiscountPrice());
+        printWithLineBreaking(formattedPrice);
     }
 
     private String convertDiscountPay(Long pay) {
@@ -83,6 +93,6 @@ public final class BenefitOutputView implements OutputView {
     }
 
     private String convertToPay(Long pay) {
-        return String.format("-%,d원", pay);
+        return String.format("%,d원", pay);
     }
 }
