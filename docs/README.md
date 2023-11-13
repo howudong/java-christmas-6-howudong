@@ -122,6 +122,15 @@
 
 ## View
 
+- [x] Parameter : Input과 Output에서 쓰이는 상수값들을 모아둔 파라미터
+    - [x] Input class : 입력에서만 쓰이는 상수 정보들
+        - "orderProducts" : 주문 메뉴
+        - "orderDay" : 주문 날짜
+    - [x] Output class : 출력에서만 쓰이는 상수 정보들
+        - "orderDto" orderDto
+        - "discountDto" discountDto
+        - "benefitDto" benefitDto
+
 ### InputView
 
 - [x] OrderInputView : 주문 관련된 입력을 받는 클래스
