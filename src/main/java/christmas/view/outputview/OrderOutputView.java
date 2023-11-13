@@ -17,8 +17,8 @@ public final class OrderOutputView implements OutputView {
     }
 
     @Override
-    public void view(Map<InputDto, String> inputs, Map<String, OutputDto> outputs) {
-        inputs.values().forEach(this::runTextMethod);
+    public void view(Map<String, InputDto> inputs, Map<String, OutputDto> outputs) {
+        inputs.keySet().forEach(this::runTextMethod);
         if (outputs.containsKey("orderOutputDto")) {
             viewOrderMenuAndPrice(outputs.get("orderOutputDto"));
         }

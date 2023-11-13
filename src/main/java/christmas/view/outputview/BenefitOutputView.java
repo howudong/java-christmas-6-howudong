@@ -14,13 +14,14 @@ public final class BenefitOutputView implements OutputView {
     private static final String EMPTY_TEXT = "없음";
 
     @Override
-    public void view(Map<InputDto, String> inputs, Map<String, OutputDto> outputs) {
+    public void view(Map<String, InputDto> inputs, Map<String, OutputDto> outputs) {
         BenefitDto benefitDto = assignDto(BenefitDto.class, outputs, "benefitDto");
         DiscountDto discountDto = assignDto(DiscountDto.class, outputs, "discountDto");
 
         if (benefitDto != null && discountDto != null) {
             viewRewardProduct(benefitDto);
             viewDiscounts(benefitDto);
+            viewBenefitPrice(discountDto);
             viewTotalDiscountPrice(discountDto);
             viewRewardBadge(benefitDto);
         }

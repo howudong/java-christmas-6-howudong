@@ -6,5 +6,5 @@ import christmas.dto.OutputDto;
 import java.util.Map;
 
 public interface OutputView {
-    void view(Map<InputDto, String> inputs, Map<String, OutputDto> outputs);
+    void view(Map<String, InputDto> inputs, Map<String, OutputDto> outputs);
 }
