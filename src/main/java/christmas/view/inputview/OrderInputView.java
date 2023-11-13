@@ -8,47 +8,57 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
+import static christmas.util.ErrorHandler.INVALID_ORDER;
+import static christmas.util.ErrorHandler.getText;
+import static christmas.view.Parameter.Input.ORDER_INPUT_DTO;
+
 public final class OrderInputView implements InputView {
     private static final char DELIMITER = '-';
     private static final char PRODUCT_DELIMITER = ',';
     private final InputValidator inputValidator;
-    private final Map<String, Consumer<InputDto>> methods = Map.ofEntries(
-            Map.entry("orderDay", this::inputOrderDay),
-            Map.entry("orderProducts", this::inputOrderProducts)
-    );
+    private final Map<String, Consumer<Map<String, InputDto>>> methods =
+            Map.ofEntries(
+                    Map.entry("orderDay", this::inputOrderDay),
+                    Map.entry("orderProducts", this::inputOrderProducts)
+            );
 
     public OrderInputView(InputValidator inputValidator) {
         this.inputValidator = inputValidator;
     }
 
-    public void read(Map<InputDto, String> inputs) {
-        inputs.forEach((dto, name) -> runMethod(inputs, dto, name));
-    }
-
-    private void runMethod(Map<InputDto, String> inputs, InputDto dto, String methodName) {
-        if (methods.containsKey(methodName)) {
-            methods.get(methodName).accept(dto);
+    public void read(Map<String, InputDto> inputs) {
+        if (!inputs.containsKey(ORDER_INPUT_DTO)) {
+            throw new IllegalArgumentException(getText(INVALID_ORDER));
         }
-        inputs.put(dto, null);
+
+        inputs.keySet().forEach(name -> runMethod(inputs, name));
     }
 
-    private void inputOrderDay(InputDto dto) {
-        OrderDto.Input inputDto = (OrderDto.Input) dto;
+    private void runMethod(Map<String, InputDto> inputs, String name) {
+        if (methods.containsKey(name)) {
+            methods.get(name).accept(inputs);
+        }
+        inputs.remove(name);
+    }
+
+    private void inputOrderDay(Map<String, InputDto> inputs) {
+        OrderDto.Input dto = (OrderDto.Input) inputs.get(ORDER_INPUT_DTO);
         String input = Console.readLine();
         inputValidator.isNumeric(input);
-        inputDto.setDay(Integer.parseInt(input));
+
+        dto.setDay(Integer.parseInt(input));
     }
 
-    private void inputOrderProducts(InputDto dto) {
-        OrderDto.Input inputDto = (OrderDto.Input) dto;
+    private void inputOrderProducts(Map<String, InputDto> inputs) {
         Map<String, Integer> orders = new HashMap<>();
+        OrderDto.Input dto = (OrderDto.Input) inputs.get(ORDER_INPUT_DTO);
 
         String input = Console.readLine();
         String[] splitInput = input.split(String.valueOf(PRODUCT_DELIMITER));
 
         inputValidator.hasExactlyContains(PRODUCT_DELIMITER, splitInput.length - 1, input);
         validateOrderProduct(orders, splitInput);
-        inputDto.setOrderProducts(orders);
+        dto.setOrderProducts(orders);
     }
 
     private void validateOrderProduct(Map<String, Integer> orders, String[] splitInput) {
