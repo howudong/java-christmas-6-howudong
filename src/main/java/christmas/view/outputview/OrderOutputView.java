@@ -3,13 +3,16 @@ package christmas.view.outputview;
 import christmas.dto.InputDto;
 import christmas.dto.OrderDto;
 import christmas.dto.OutputDto;
+import christmas.view.Parameter;
 
 import java.util.Map;
 
+import static christmas.view.Parameter.Output.ORDER_DTO;
+
 public final class OrderOutputView implements OutputView {
     private final Map<String, Runnable> textMethods = Map.ofEntries(
-            Map.entry("orderDay", this::viewOrderDay),
-            Map.entry("orderProducts", this::viewOrderProduct)
+            Map.entry(Parameter.Input.ORDER_DAY, this::viewOrderDay),
+            Map.entry(Parameter.Input.ORDER_PRODUCTS, this::viewOrderProduct)
     );
 
     public OrderOutputView() {
@@ -19,8 +22,8 @@ public final class OrderOutputView implements OutputView {
     @Override
     public void view(Map<String, InputDto> inputs, Map<String, OutputDto> outputs) {
         inputs.keySet().forEach(this::runTextMethod);
-        if (outputs.containsKey("orderOutputDto")) {
-            viewOrderMenuAndPrice(outputs.get("orderOutputDto"));
+        if (outputs.containsKey(ORDER_DTO)) {
+            viewOrderMenuAndPrice(outputs.get(ORDER_DTO));
         }
     }
 
