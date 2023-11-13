@@ -17,10 +17,11 @@ public final class OrderOutputView implements OutputView {
     }
 
     @Override
-    public void view(Map<InputDto, String> inputs, Map<OutputDto, String> outputs) {
+    public void view(Map<InputDto, String> inputs, Map<String, OutputDto> outputs) {
         inputs.values().forEach(this::runTextMethod);
-        OutputDto orderOutputDto = findDtoByName(outputs, "orderOutputDto");
-        viewOrderMenuAndPrice(orderOutputDto);
+        if (outputs.containsKey("orderOutputDto")) {
+            viewOrderMenuAndPrice(outputs.get("orderOutputDto"));
+        }
     }
 
     private void runTextMethod(String name) {
@@ -41,19 +42,26 @@ public final class OrderOutputView implements OutputView {
         OrderDto.Output orderOutputDto = (OrderDto.Output) dto;
         System.out.println("12월 " + orderOutputDto.day() + "일에 우테코 식당에서 받을 이벤트 혜택 미리 보기!\n");
 
-        System.out.println("<주문 메뉴>");
-        Map<String, Integer> orderProducts = orderOutputDto.orderProducts();
-        orderProducts.forEach((key, value) -> System.out.println(key + " " + value + "개"));
-
-        System.out.println("\n<할인 전 총주문 금액>");
-        System.out.println(orderOutputDto.originalTotalPrice() + "원");
+        viewOrderMenu(orderOutputDto);
+        System.out.println();
+        viewOriginalTotalPrice(orderOutputDto);
+        System.out.println();
 
     }
 
-    private OutputDto findDtoByName(Map<OutputDto, String> outputs, String name) {
-        return outputs.entrySet()
-                .stream().filter(e -> e.getValue().equals(name))
-                .findAny().map(Map.Entry::getKey)
-                .orElse(null);
+    private void viewOrderMenu(OrderDto.Output orderOutputDto) {
+        System.out.println("<주문 메뉴>");
+        Map<String, Integer> orderProducts = orderOutputDto.orderProducts();
+        orderProducts.forEach((key, value) -> System.out.println(key + " " + value + "개"));
+    }
+
+    private void viewOriginalTotalPrice(OrderDto.Output orderOutputDto) {
+        System.out.println("<할인 전 총주문 금액>");
+        Long price = orderOutputDto.originalTotalPrice();
+        System.out.println(convertToPay(price));
+    }
+
+    String convertToPay(Long pay) {
+        return String.format("%,d원", pay);
     }
 }
