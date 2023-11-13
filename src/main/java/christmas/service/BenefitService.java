@@ -15,7 +15,7 @@ public final class BenefitService {
         this.originalTotalPrice = originalTotalPrice;
     }
 
-    public BenefitDto getBenefitDto() {
+    public BenefitDto createBenefitDto() {
         Map<String, Long> discounts = calculator.getAvailableDiscounts();
         return configBenefit(discounts);
     }
