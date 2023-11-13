@@ -3,21 +3,15 @@ package christmas.dto;
 import christmas.domain.BadgeType;
 import christmas.domain.Product;
 
-import java.util.Map;
-
 public final class BenefitDto extends OutputDto {
-    private final Map<String, Long> discounts;
     private final Product rewardProduct;
     private final BadgeType badgeType;
+    private final Long benefitPrice;
 
-    public BenefitDto(Map<String, Long> discounts, Product rewardProduct, BadgeType badgeType) {
-        this.discounts = discounts;
+    public BenefitDto(Product rewardProduct, BadgeType badgeType, Long benefitPrice) {
         this.rewardProduct = rewardProduct;
         this.badgeType = badgeType;
-    }
-
-    public Map<String, Long> discounts() {
-        return discounts;
+        this.benefitPrice = benefitPrice;
     }
 
     public Product rewardProduct() {
@@ -26,5 +20,9 @@ public final class BenefitDto extends OutputDto {
 
     public BadgeType badgeType() {
         return badgeType;
+    }
+
+    public Long getBenefitPrice() {
+        return benefitPrice;
     }
 }

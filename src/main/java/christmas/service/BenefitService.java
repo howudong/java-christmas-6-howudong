@@ -22,9 +22,7 @@ public final class BenefitService {
 
     private BenefitDto configBenefit(Map<String, Long> discounts) {
         Benefit benefit = new Benefit(originalTotalPrice, discounts);
-        benefit.getRewardBadge();
-        benefit.getRewardProduct();
-        return new BenefitDto(discounts, benefit.getRewardProduct(), benefit.getRewardBadge());
+        return new BenefitDto(benefit.getRewardProduct(), benefit.getRewardBadge(), benefit.getBenefitPrice());
     }
 
 }

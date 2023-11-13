@@ -20,8 +20,8 @@ public final class BenefitOutputView implements OutputView {
 
         if (benefitDto != null && discountDto != null) {
             viewRewardProduct(benefitDto);
-            viewDiscounts(benefitDto);
-            viewBenefitPrice(discountDto);
+            viewDiscounts(discountDto);
+            viewBenefitPrice(benefitDto);
             viewTotalDiscountPrice(discountDto);
             viewRewardBadge(benefitDto);
         }
@@ -44,9 +44,9 @@ public final class BenefitOutputView implements OutputView {
         System.out.println(product.getName() + " " + product.getPrice() + "개\n");
     }
 
-    private void viewDiscounts(BenefitDto dto) {
+    private void viewDiscounts(DiscountDto dto) {
         System.out.println("<혜택 내역>");
-        Map<String, Long> discounts = dto.discounts();
+        Map<String, Long> discounts = dto.getDiscounts();
         if (discounts.isEmpty()) {
             System.out.println(EMPTY_TEXT + "\n");
             return;
@@ -55,9 +55,9 @@ public final class BenefitOutputView implements OutputView {
         System.out.println();
     }
 
-    private void viewBenefitPrice(DiscountDto dto) {
+    private void viewBenefitPrice(BenefitDto dto) {
         System.out.println("<총혜택 금액>");
-        Long benefitPrice = dto.benefitPrice();
+        Long benefitPrice = dto.getBenefitPrice();
         System.out.println(convertDiscountPay(benefitPrice));
         System.out.println();
     }
