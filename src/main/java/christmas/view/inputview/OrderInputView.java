@@ -12,7 +12,6 @@ public final class OrderInputView implements InputView {
     private static final char DELIMITER = '-';
     private static final char PRODUCT_DELIMITER = ',';
     private final InputValidator inputValidator;
-
     private final Map<String, Consumer<InputDto>> methods = Map.ofEntries(
             Map.entry("orderDay", this::inputOrderDay),
             Map.entry("orderProducts", this::inputOrderProducts)
