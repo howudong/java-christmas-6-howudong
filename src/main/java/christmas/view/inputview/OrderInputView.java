@@ -6,6 +6,7 @@ import christmas.dto.OrderDto;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 import static christmas.util.ErrorHandler.INVALID_ORDER;
@@ -32,13 +33,13 @@ public final class OrderInputView implements InputView {
         }
 
         inputs.keySet().forEach(name -> runMethod(inputs, name));
+        inputs.values().removeIf(Objects::isNull);
     }
 
     private void runMethod(Map<String, InputDto> inputs, String name) {
         if (methods.containsKey(name)) {
             methods.get(name).accept(inputs);
         }
-        inputs.remove(name);
     }
 
     private void inputOrderDay(Map<String, InputDto> inputs) {
