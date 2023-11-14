@@ -1,15 +1,15 @@
-package christmas.domain;
+package christmas.domain.vo;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static christmas.domain.Product.*;
+import static christmas.domain.vo.Product.*;
 
 public enum MenuType {
     APPETIZER(List.of(MUSHROOM_SOUP, TAPAS, CAESAR_SALAD)),
     MAIN(List.of(T_BONE_STAKE, BBQ_LIBS, SEA_FOOD_PASTA, CHRISTMAS_PASTA)),
     DRINK(List.of(ZERO_COKE, RED_WINE, CHAMPAGNE)),
-    DESERT(List.of(ICECREAM, CHOCOLATE_CAKE));
+    DESERT(List.of(ICE_CREAM, CHOCOLATE_CAKE));
 
     private final List<Product> products;
 
@@ -17,9 +17,9 @@ public enum MenuType {
         this.products = products;
     }
 
-    public static MenuType findMenuTypeByName(String productName) {
+    public static MenuType findMenuTypeProduct(Product product) {
         return Arrays.stream(MenuType.values())
-                .filter(e -> e.findMatchedType(e.products, productName))
+                .filter(e -> e.findMatchedType(e.products, product.getName()))
                 .findAny()
                 .orElse(null);
     }

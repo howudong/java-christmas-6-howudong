@@ -1,10 +1,6 @@
-package christmas.domain;
-
-import christmas.util.ErrorHandler;
+package christmas.domain.vo;
 
 import java.util.Arrays;
-
-import static christmas.util.ErrorHandler.INVALID_ORDER;
 
 public enum Product {
     MUSHROOM_SOUP("양송이수프", 6_000L),
@@ -15,7 +11,7 @@ public enum Product {
     SEA_FOOD_PASTA("해산물파스타", 35_000L),
     CHRISTMAS_PASTA("크리스마스파스타", 25_000L),
     CHOCOLATE_CAKE("초코케이크", 15_000L),
-    ICECREAM("아이스크림", 5_000L),
+    ICE_CREAM("아이스크림", 5_000L),
     ZERO_COKE("제로콜라", 3_000L),
     RED_WINE("레드와인", 60_000L),
     CHAMPAGNE("샴페인", 25_000L);
@@ -28,27 +24,18 @@ public enum Product {
         this.price = price;
     }
 
+    public static Product findSameProduct(String product) {
+        return Arrays.stream(values())
+                .filter(e -> e.name.equals(product))
+                .findAny()
+                .orElse(null);
+    }
+
     public String getName() {
         return name;
     }
 
     public Long getPrice() {
         return price;
-    }
-
-    public static Long getPriceByName(String name) {
-        Product matchedProduct = findSameProduct(name);
-        if (matchedProduct == null) {
-            throw new IllegalArgumentException(ErrorHandler.getText(INVALID_ORDER));
-        }
-
-        return matchedProduct.price;
-    }
-
-    private static Product findSameProduct(String product) {
-        return Arrays.stream(values())
-                .filter(e -> e.name.equals(product))
-                .findAny()
-                .orElse(null);
     }
 }

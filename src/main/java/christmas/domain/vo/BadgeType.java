@@ -1,4 +1,4 @@
-package christmas.domain;
+package christmas.domain.vo;
 
 public enum BadgeType {
     STAR("별", 5_000L),
