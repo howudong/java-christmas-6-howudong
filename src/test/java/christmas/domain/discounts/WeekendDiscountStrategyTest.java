@@ -25,7 +25,7 @@ class WeekendDiscountStrategyTest {
         Long discount = strategy.discount(orders);
         //then
         Integer size = orderList.stream()
-                .filter(e -> MenuType.getMenuTypeByName(e.name()).equals(MenuType.MAIN))
+                .filter(e -> MenuType.findMenuTypeByName(e.name()).equals(MenuType.MAIN))
                 .map(OrderProduct::quantity)
                 .reduce(Integer::sum)
                 .orElse(0);

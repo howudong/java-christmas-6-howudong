@@ -28,7 +28,7 @@ final class WeekdayDiscountStrategy implements DiscountStrategy {
 
     private int getTargetMenuQuantity(List<OrderProduct> orders) {
         return orders.stream()
-                .filter(e -> MenuType.getMenuTypeByName(e.name()).equals(MenuType.DESERT))
+                .filter(e -> MenuType.findMenuTypeByName(e.name()).equals(MenuType.DESERT))
                 .map(OrderProduct::quantity)
                 .reduce(Integer::sum)
                 .orElse(0);

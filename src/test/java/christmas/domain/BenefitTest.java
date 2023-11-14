@@ -15,7 +15,7 @@ class BenefitTest {
     void 증정_상품_없음() {
         //given
         Orders orders = new Orders(List.of(new OrderProduct(Product.SEA_FOOD_PASTA.getName(), 1)), 1);
-        Benefit benefit = new Benefit(orders.getOriginalPrice(), null);
+        Benefit benefit = new Benefit(orders.calculateTotalPrice(), null);
         //when
         OrderProduct bonusProduct = benefit.getRewardProduct();
         //then
@@ -27,7 +27,7 @@ class BenefitTest {
     void 증정_상품_있음() {
         //given
         Orders orders = new Orders(List.of(new OrderProduct(Product.SEA_FOOD_PASTA.getName(), 10)), 1);
-        Benefit benefit = new Benefit(orders.getOriginalPrice(), null);
+        Benefit benefit = new Benefit(orders.calculateTotalPrice(), null);
         //when
         OrderProduct bonusProduct = benefit.getRewardProduct();
         //then
@@ -40,7 +40,7 @@ class BenefitTest {
         //given
         Orders orders = new Orders(List.of(new OrderProduct(Product.SEA_FOOD_PASTA.getName(), 10)), 1);
         DiscountCalculator strategy = new DiscountCalculator(orders);
-        Benefit benefit = new Benefit(orders.getOriginalPrice(), strategy.getAvailableDiscounts());
+        Benefit benefit = new Benefit(orders.calculateTotalPrice(), strategy.getAvailableDiscounts());
         //when
         BadgeType rewardBadge = benefit.getRewardBadge();
         //then
@@ -53,7 +53,7 @@ class BenefitTest {
         //given
         Orders orders = new Orders(List.of(new OrderProduct(Product.CHOCOLATE_CAKE.getName(), 5)), 3);
         DiscountCalculator strategy = new DiscountCalculator(orders);
-        Benefit benefit = new Benefit(orders.getOriginalPrice(), strategy.getAvailableDiscounts());
+        Benefit benefit = new Benefit(orders.calculateTotalPrice(), strategy.getAvailableDiscounts());
         //when
         BadgeType rewardBadge = benefit.getRewardBadge();
         //then
@@ -66,7 +66,7 @@ class BenefitTest {
         //given
         Orders orders = new Orders(List.of(new OrderProduct(Product.SEA_FOOD_PASTA.getName(), 3)), 1);
         DiscountCalculator strategy = new DiscountCalculator(orders);
-        Benefit benefit = new Benefit(orders.getOriginalPrice(), strategy.getAvailableDiscounts());
+        Benefit benefit = new Benefit(orders.calculateTotalPrice(), strategy.getAvailableDiscounts());
         //when
         BadgeType rewardBadge = benefit.getRewardBadge();
         //then
@@ -79,7 +79,7 @@ class BenefitTest {
         //given
         Orders orders = new Orders(List.of(new OrderProduct(Product.SEA_FOOD_PASTA.getName(), 1)), 1);
         DiscountCalculator strategy = new DiscountCalculator(orders);
-        Benefit benefit = new Benefit(orders.getOriginalPrice(), strategy.getAvailableDiscounts());
+        Benefit benefit = new Benefit(orders.calculateTotalPrice(), strategy.getAvailableDiscounts());
         //when
         BadgeType rewardBadge = benefit.getRewardBadge();
         //then
@@ -91,7 +91,7 @@ class BenefitTest {
     void 할인_목록_증정_상품_포함() {
         Orders orders = new Orders(List.of(new OrderProduct(Product.SEA_FOOD_PASTA.getName(), 10)), 1);
         DiscountCalculator strategy = new DiscountCalculator(orders);
-        Benefit benefit = new Benefit(orders.getOriginalPrice(), strategy.getAvailableDiscounts());
+        Benefit benefit = new Benefit(orders.calculateTotalPrice(), strategy.getAvailableDiscounts());
         //when
         Map<String, Long> discounts = benefit.getDiscounts();
         //then
@@ -103,7 +103,7 @@ class BenefitTest {
     void 할인_목록_증정_상품_포함X() {
         Orders orders = new Orders(List.of(new OrderProduct(Product.SEA_FOOD_PASTA.getName(), 1)), 1);
         DiscountCalculator strategy = new DiscountCalculator(orders);
-        Benefit benefit = new Benefit(orders.getOriginalPrice(), strategy.getAvailableDiscounts());
+        Benefit benefit = new Benefit(orders.calculateTotalPrice(), strategy.getAvailableDiscounts());
         //when
         Map<String, Long> discounts = benefit.getDiscounts();
         //then
@@ -115,7 +115,7 @@ class BenefitTest {
     void 혜택_금액_증정_포함() {
         Orders orders = new Orders(List.of(new OrderProduct(Product.SEA_FOOD_PASTA.getName(), 10)), 1);
         DiscountCalculator strategy = new DiscountCalculator(orders);
-        Benefit benefit = new Benefit(orders.getOriginalPrice(), strategy.getAvailableDiscounts());
+        Benefit benefit = new Benefit(orders.calculateTotalPrice(), strategy.getAvailableDiscounts());
         //when
         Long result = benefit.getBenefitPrice();
         //then
@@ -127,7 +127,7 @@ class BenefitTest {
     void 혜택_금액_증정_포함X() {
         Orders orders = new Orders(List.of(new OrderProduct(Product.SEA_FOOD_PASTA.getName(), 1)), 1);
         DiscountCalculator strategy = new DiscountCalculator(orders);
-        Benefit benefit = new Benefit(orders.getOriginalPrice(), strategy.getAvailableDiscounts());
+        Benefit benefit = new Benefit(orders.calculateTotalPrice(), strategy.getAvailableDiscounts());
         //when
         Long result = benefit.getBenefitPrice();
         //then

@@ -14,17 +14,18 @@ public record Orders(List<OrderProduct> orderProducts, int orderDay) {
 
     public Orders {
         validateOrderProduct(orderProducts);
-        getValidateDate(orderDay);
+        validateDate(orderDay);
     }
 
-    public Long getOriginalPrice() {
+    public Long calculateTotalPrice() {
         return orderProducts.stream()
-                .map(e -> Product.getPriceByName(e.name()) * e.quantity())
+                .map(e ->
+                        Product.getPriceByName(e.name()) * e.quantity())
                 .reduce(Long::sum)
                 .orElse(0L);
     }
 
-    private void getValidateDate(int orderDay) {
+    private void validateDate(int orderDay) {
         if (orderDay < FIRST_DAY || orderDay > LAST_DAY) {
             throw new IllegalArgumentException(getText(INVALID_DATE));
         }
@@ -96,7 +97,7 @@ public record Orders(List<OrderProduct> orderProducts, int orderDay) {
 
     private Set<MenuType> convertMenuTypes(List<OrderProduct> orderProducts) {
         return orderProducts.stream()
-                .map(e -> MenuType.getMenuTypeByName(e.name()))
+                .map(e -> MenuType.findMenuTypeByName(e.name()))
                 .collect(Collectors.toSet());
     }
 }

@@ -17,8 +17,8 @@ public final class ControlConfig {
 
     public Controller createBenefitController(Orders orders) {
         return new BenefitController(
-                new BenefitService(new DiscountCalculator(orders), orders.getOriginalPrice()),
-                new DiscountService(new DiscountCalculator(orders), orders.getOriginalPrice()),
+                new BenefitService(new DiscountCalculator(orders), orders.calculateTotalPrice()),
+                new DiscountService(new DiscountCalculator(orders), orders.calculateTotalPrice()),
                 new BenefitOutputView());
     }
 }

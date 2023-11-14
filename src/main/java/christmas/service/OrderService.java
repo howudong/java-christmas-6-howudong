@@ -23,7 +23,7 @@ public final class OrderService {
     private Long getOriginalTotalPrice(OrderDto.Input dto) {
         List<OrderProduct> orders = convert(dto.getOrderProducts());
         int orderDay = dto.getDay();
-        return getOrders(orders, orderDay).getOriginalPrice();
+        return getOrders(orders, orderDay).calculateTotalPrice();
     }
 
     private List<OrderProduct> convert(Map<String, Integer> orderProducts) {

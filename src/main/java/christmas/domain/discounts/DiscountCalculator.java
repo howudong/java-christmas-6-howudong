@@ -24,7 +24,7 @@ public final class DiscountCalculator {
             Map.entry("주말 할인", new WeekendDiscountStrategy(new EventCalendar())));
 
     public Map<String, Long> getAvailableDiscounts() {
-        if (orders.getOriginalPrice() < DISCOUNT_MIN_PRICE) {
+        if (orders.calculateTotalPrice() < DISCOUNT_MIN_PRICE) {
             return Collections.emptyMap();
         }
 

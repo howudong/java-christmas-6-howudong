@@ -17,7 +17,7 @@ public enum MenuType {
         this.products = products;
     }
 
-    public static MenuType getMenuTypeByName(String productName) {
+    public static MenuType findMenuTypeByName(String productName) {
         return Arrays.stream(MenuType.values())
                 .filter(e -> e.findMatchedType(e.products, productName))
                 .findAny()
