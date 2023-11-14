@@ -1,7 +1,7 @@
 package christmas.domain.discounts;
 
-import christmas.domain.Calendar;
 import christmas.domain.DiscountStrategy;
+import christmas.domain.EventCalendar;
 import christmas.domain.Orders;
 
 import java.util.Collections;
@@ -11,7 +11,7 @@ import java.util.Map;
 public final class DiscountCalculator {
     private static final long DISCOUNT_MIN_PRICE = 10000L;
     private final Orders orders;
-    private Long totalDiscountPrice;
+
 
     public DiscountCalculator(Orders orders) {
         this.orders = orders;
@@ -19,18 +19,17 @@ public final class DiscountCalculator {
 
     private final Map<String, DiscountStrategy> strategies = Map.ofEntries(
             Map.entry("크리스마스 디데이 할인", new XmasDiscountStrategy()),
-            Map.entry("특별 할인", new SpecialDiscountStrategy()),
-            Map.entry("평일 할인", new WeekdayDiscountStrategy()),
-            Map.entry("주말 할인", new WeekendDiscountStrategy()));
+            Map.entry("특별 할인", new SpecialDiscountStrategy(new EventCalendar())),
+            Map.entry("평일 할인", new WeekdayDiscountStrategy(new EventCalendar())),
+            Map.entry("주말 할인", new WeekendDiscountStrategy(new EventCalendar())));
 
     public Map<String, Long> getAvailableDiscounts() {
-        if (!orders.orderMonth().equals(Calendar.DECEMBER)
-                || orders.getOriginalPrice() < DISCOUNT_MIN_PRICE) {
+        if (orders.getOriginalPrice() < DISCOUNT_MIN_PRICE) {
             return Collections.emptyMap();
         }
 
         Map<String, Long> discounts = getNotZeroDiscountResults();
-        totalDiscountPrice = sumAllDiscount(discounts);
+        sumAllDiscount(discounts);
         return discounts;
     }
 

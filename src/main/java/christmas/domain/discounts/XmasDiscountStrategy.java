@@ -1,6 +1,5 @@
 package christmas.domain.discounts;
 
-import christmas.domain.Calendar;
 import christmas.domain.DiscountStrategy;
 import christmas.domain.Orders;
 
@@ -13,13 +12,12 @@ final class XmasDiscountStrategy implements DiscountStrategy {
     @Override
     public Long discount(Orders orders) {
         int orderDay = orders.orderDay();
-        Calendar orderMonth = orders.orderMonth();
 
-        return getDiscountPrice(orderDay, orderMonth);
+        return getDiscountPrice(orderDay);
     }
 
-    private Long getDiscountPrice(int orderDay, Calendar orderMonth) {
-        if (orderDay > DEAD_LINE || !orderMonth.equals(Calendar.DECEMBER)) {
+    private Long getDiscountPrice(int orderDay) {
+        if (orderDay > DEAD_LINE) {
             return 0L;
         }
         Long extraDiscount = (orderDay - 1) * EXTRA_DISCOUNT_PER_DAY;

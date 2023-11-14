@@ -18,7 +18,7 @@ class OrdersTest {
     @Test
     @DisplayName("Product에 없는 메뉴의 이름이 포함되어 있다면 예외를 발생시킨다.")
     void null_Order_예외() {
-        assertThatThrownBy(() -> new Orders(List.of(), Calendar.DECEMBER, 1))
+        assertThatThrownBy(() -> new Orders(List.of(), 1))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining(ErrorHandler.INVALID_ORDER);
     }
@@ -27,7 +27,7 @@ class OrdersTest {
     @MethodSource("createAbsentNamedOrder")
     @DisplayName("Product에 없는 메뉴의 이름이 포함되어 있다면 예외를 발생시킨다.")
     void 해당_메뉴_없음_예외(List<OrderProduct> orderProducts) {
-        assertThatThrownBy(() -> new Orders(orderProducts, Calendar.DECEMBER, 1))
+        assertThatThrownBy(() -> new Orders(orderProducts, 1))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining(ErrorHandler.INVALID_ORDER);
     }
@@ -36,7 +36,7 @@ class OrdersTest {
     @MethodSource("createSameOrder")
     @DisplayName("같은 이름의 메뉴를 주문하면 예외가 발생한다.")
     void 메뉴_중복_예외(List<OrderProduct> param) {
-        assertThatThrownBy(() -> new Orders(param, Calendar.DECEMBER, 1))
+        assertThatThrownBy(() -> new Orders(param, 1))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining(ErrorHandler.INVALID_ORDER);
     }
@@ -45,7 +45,7 @@ class OrdersTest {
     @MethodSource("createOverSizeOrder")
     @DisplayName("주문 개수가 20개가 넘어가면 예외를 발생시킨다.")
     void 수량_초과_예외(List<OrderProduct> param) {
-        assertThatThrownBy(() -> new Orders(param, Calendar.DECEMBER, 1))
+        assertThatThrownBy(() -> new Orders(param, 1))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining(ErrorHandler.INVALID_ORDER);
     }
@@ -54,7 +54,7 @@ class OrdersTest {
     @MethodSource("createOnlyDrinkOrder")
     @DisplayName("DRINK만 주문하면 예외가 발생한다.")
     void 오직_마실것_예외(List<OrderProduct> param) {
-        assertThatThrownBy(() -> new Orders(param, Calendar.DECEMBER, 1))
+        assertThatThrownBy(() -> new Orders(param, 1))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining(ErrorHandler.INVALID_ORDER);
     }
@@ -63,7 +63,7 @@ class OrdersTest {
     @MethodSource("createZeroQuantityOrder")
     @DisplayName("주문 개수가 0개인 것이 있다면 예외를 발생시킨다.")
     void 주문_개수_0개_예외(List<OrderProduct> param) {
-        assertThatThrownBy(() -> new Orders(param, Calendar.DECEMBER, 1))
+        assertThatThrownBy(() -> new Orders(param, 1))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining(ErrorHandler.INVALID_ORDER);
     }
@@ -72,7 +72,7 @@ class OrdersTest {
     @MethodSource("createCorrectOrder")
     @DisplayName("올바른 주문이 들어온다면 예외가 발생하지 않는다.")
     void 주문_올바름(List<OrderProduct> param) {
-        new Orders(param, Calendar.DECEMBER, 1);
+        new Orders(param, 1);
     }
 
     @ParameterizedTest
@@ -80,7 +80,7 @@ class OrdersTest {
     @DisplayName("날짜가 틀렸다면 예이가 발생한다.")
     void 날짜_틀림(int day) {
         assertThatThrownBy(() -> new Orders(List.of(new OrderProduct(CHOCOLATE_CAKE.getName(), 1)),
-                Calendar.DECEMBER, day))
+                day))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining(ErrorHandler.INVALID_DATE);
     }

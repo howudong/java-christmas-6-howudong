@@ -1,20 +1,22 @@
 package christmas.domain.discounts;
 
-import christmas.domain.DiscountStrategy;
-import christmas.domain.MenuType;
-import christmas.domain.OrderProduct;
-import christmas.domain.Orders;
+import christmas.domain.*;
 
 import java.util.List;
 
 final class WeekendDiscountStrategy implements DiscountStrategy {
+    private final EventCalendar eventCalendar;
 
-    private static final int WEEK_CYCLE = 7;
+    public WeekendDiscountStrategy(EventCalendar eventCalendar) {
+        this.eventCalendar = eventCalendar;
+    }
+
     private static final long WEEKEND_DISCOUNT_PRICE = 2023L;
 
     @Override
     public Long discount(Orders orders) {
-        if (isWeekend(orders)) {
+        Boolean isWeekend = eventCalendar.isWeekend(orders.orderDay());
+        if (Boolean.TRUE.equals(isWeekend)) {
             return getDiscountPrice(orders.orderProducts());
         }
         return 0L;
@@ -31,12 +33,5 @@ final class WeekendDiscountStrategy implements DiscountStrategy {
                 .map(OrderProduct::quantity)
                 .reduce(Integer::sum)
                 .orElse(0);
-    }
-
-    private boolean isWeekend(Orders orders) {
-        List<Integer> firstWeekendsDays = orders.orderMonth().getFirstWeekendDays();
-        int orderDay = orders.orderDay();
-
-        return firstWeekendsDays.contains(orderDay % WEEK_CYCLE);
     }
 }

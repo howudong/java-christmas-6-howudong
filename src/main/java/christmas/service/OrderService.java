@@ -1,6 +1,5 @@
 package christmas.service;
 
-import christmas.domain.Calendar;
 import christmas.domain.OrderProduct;
 import christmas.domain.Orders;
 import christmas.dto.OrderDto;
@@ -37,6 +36,6 @@ public final class OrderService {
     }
 
     private Orders getOrders(List<OrderProduct> orders, int orderDay) {
-        return new Orders(orders, Calendar.DECEMBER, orderDay);
+        return new Orders(orders, orderDay);
     }
 }

@@ -7,13 +7,14 @@ import java.util.stream.Collectors;
 
 import static christmas.util.ErrorHandler.*;
 
-public record Orders(List<OrderProduct> orderProducts, Calendar orderMonth, int orderDay) {
+public record Orders(List<OrderProduct> orderProducts, int orderDay) {
     private static final int MAX_ORDER_SIZE = 20;
     private static final int FIRST_DAY = 1;
+    private static final int LAST_DAY = 31;
 
     public Orders {
         validateOrderProduct(orderProducts);
-        getValidateDate(orderMonth, orderDay);
+        getValidateDate(orderDay);
     }
 
     public Long getOriginalPrice() {
@@ -23,9 +24,8 @@ public record Orders(List<OrderProduct> orderProducts, Calendar orderMonth, int 
                 .orElse(0L);
     }
 
-    private void getValidateDate(Calendar orderMonth, int orderDay) {
-        int lastDay = orderMonth.getLastDay();
-        if (orderDay < FIRST_DAY || orderDay > lastDay) {
+    private void getValidateDate(int orderDay) {
+        if (orderDay < FIRST_DAY || orderDay > LAST_DAY) {
             throw new IllegalArgumentException(getText(INVALID_DATE));
         }
     }

@@ -1,6 +1,5 @@
 package christmas.controller;
 
-import christmas.domain.Calendar;
 import christmas.domain.OrderProduct;
 import christmas.domain.Orders;
 import christmas.domain.Product;
@@ -49,7 +48,7 @@ public class OrderController implements Controller {
     private void validateDay(InputDto inputDto) {
         OrderDto.Input dto = (OrderDto.Input) inputDto;
         int day = dto.getDay();
-        new Orders(FAKE_ORDER_PRODUCTS, Calendar.DECEMBER, day);
+        new Orders(FAKE_ORDER_PRODUCTS, day);
     }
 
     private void displayOrderProductsView(Map<String, InputDto> inputs, Map<String, OutputDto> outputs) {

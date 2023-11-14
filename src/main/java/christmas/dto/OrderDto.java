@@ -1,6 +1,5 @@
 package christmas.dto;
 
-import christmas.domain.Calendar;
 import christmas.domain.OrderProduct;
 import christmas.domain.Orders;
 
@@ -47,7 +46,7 @@ public final class OrderDto {
         public Orders toEntity() {
             List<OrderProduct> orders = new ArrayList<>();
             orderProducts.forEach((key, value) -> orders.add(new OrderProduct(key, value)));
-            return new Orders(orders, Calendar.DECEMBER, day);
+            return new Orders(orders, day);
         }
 
         public Map<String, Integer> orderProducts() {

@@ -1,6 +1,5 @@
 package christmas.domain.discounts;
 
-import christmas.domain.Calendar;
 import christmas.domain.OrderProduct;
 import christmas.domain.Orders;
 import christmas.domain.Product;
@@ -22,8 +21,7 @@ class DiscountCalculatorTest {
     @DisplayName("10000원 미만일때 아무런 할인도 반환해선 안된다.")
     void 만원_미만_할인_없음() {
         //given
-        Orders orders = new Orders(List.of(new OrderProduct(Product.MUSHROOM_SOUP.getName(), 1)),
-                Calendar.DECEMBER, 1);
+        Orders orders = new Orders(List.of(new OrderProduct(Product.MUSHROOM_SOUP.getName(), 1)), 1);
         DiscountCalculator strategy = new DiscountCalculator(orders);
         //when
         Map<String, Long> availableDiscounts = strategy.getAvailableDiscounts();
@@ -36,8 +34,7 @@ class DiscountCalculatorTest {
     @DisplayName("주문이 12월 25일 초과면 크리스마스 할인을 포함해선 안된다.")
     void 크리스마스_할인_기간_X(int day) {
         //given
-        Orders orders = new Orders(List.of(new OrderProduct(Product.MUSHROOM_SOUP.getName(), 1)),
-                Calendar.DECEMBER, day);
+        Orders orders = new Orders(List.of(new OrderProduct(Product.MUSHROOM_SOUP.getName(), 1)), day);
         DiscountCalculator strategy = new DiscountCalculator(orders);
         //when
         Map<String, Long> availableDiscounts = strategy.getAvailableDiscounts();
@@ -50,8 +47,7 @@ class DiscountCalculatorTest {
     @DisplayName("주문이 주말이면 주말 할인은 포함하고, 평일 할인은 포함해선 안된다.")
     void 주말_주문_할인(int day) {
         //given
-        Orders orders = new Orders(List.of(new OrderProduct(Product.SEA_FOOD_PASTA.getName(), 2)),
-                Calendar.DECEMBER, day);
+        Orders orders = new Orders(List.of(new OrderProduct(Product.SEA_FOOD_PASTA.getName(), 2)), day);
         DiscountCalculator strategy = new DiscountCalculator(orders);
         //when
         Map<String, Long> availableDiscounts = strategy.getAvailableDiscounts();
@@ -64,8 +60,7 @@ class DiscountCalculatorTest {
     @DisplayName("주문이 평일이면 평일 할인은 포함하고, 주말 할인은 포함해선 안된다.")
     void 평일_주문_할인(int day) {
         //given
-        Orders orders = new Orders(List.of(new OrderProduct(Product.CHOCOLATE_CAKE.getName(), 2)),
-                Calendar.DECEMBER, day);
+        Orders orders = new Orders(List.of(new OrderProduct(Product.CHOCOLATE_CAKE.getName(), 2)), day);
         DiscountCalculator strategy = new DiscountCalculator(orders);
         //when
         Map<String, Long> availableDiscounts = strategy.getAvailableDiscounts();
@@ -78,8 +73,7 @@ class DiscountCalculatorTest {
     @DisplayName("Star 날이면 특별 할인이 적용된다.")
     void 특별_할인(int day) {
         //given
-        Orders orders = new Orders(List.of(new OrderProduct(Product.CHOCOLATE_CAKE.getName(), 2)),
-                Calendar.DECEMBER, day);
+        Orders orders = new Orders(List.of(new OrderProduct(Product.CHOCOLATE_CAKE.getName(), 2)), day);
         DiscountCalculator strategy = new DiscountCalculator(orders);
         //when
         Map<String, Long> availableDiscounts = strategy.getAvailableDiscounts();
