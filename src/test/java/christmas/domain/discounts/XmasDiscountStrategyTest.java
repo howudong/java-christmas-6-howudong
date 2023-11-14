@@ -3,7 +3,7 @@ package christmas.domain.discounts;
 import christmas.domain.DiscountStrategy;
 import christmas.domain.OrderProduct;
 import christmas.domain.Orders;
-import christmas.domain.Product;
+import christmas.domain.vo.Product;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -23,7 +23,7 @@ class XmasDiscountStrategyTest {
     @DisplayName("25일 이후가 들어오면 할인 금액은 0원 이어야 한다.")
     void 날짜_초과_0원_반환() {
         //given
-        Orders orders = new Orders(List.of(new OrderProduct(Product.CHOCOLATE_CAKE.getName(), 1)), 26);
+        Orders orders = new Orders(List.of(new OrderProduct(Product.CHOCOLATE_CAKE, 1)), 26);
         //when
         Long discount = strategy.discount(orders);
         //then
@@ -35,11 +35,11 @@ class XmasDiscountStrategyTest {
     @DisplayName("일자에 맞춰 할인 금액이 정상적으로 반환되어야 한다.")
     void 정상_금액_반환(int day) {
         //given
-        Orders orders = new Orders(List.of(new OrderProduct(Product.CHOCOLATE_CAKE.getName(), 1)), day);
+        Orders orders = new Orders(List.of(new OrderProduct(Product.CHOCOLATE_CAKE, 1)), day);
         //when
         Long discount = strategy.discount(orders);
         //then
-        Long expected = 1000L + (orders.orderDay() - 1) * 100L;
+        Long expected = 1000L + (orders.getOrderDay() - 1) * 100L;
         assertThat(discount).isEqualTo(expected);
     }
 

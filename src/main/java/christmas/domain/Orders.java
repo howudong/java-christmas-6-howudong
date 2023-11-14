@@ -1,41 +1,49 @@
 package christmas.domain;
 
-import java.util.Arrays;
+import christmas.domain.vo.MenuType;
+
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import static christmas.util.ErrorHandler.*;
+import static java.util.stream.Collectors.toSet;
 
-public record Orders(List<OrderProduct> orderProducts, int orderDay) {
+public final class Orders {
     private static final int MAX_ORDER_SIZE = 20;
     private static final int FIRST_DAY = 1;
     private static final int LAST_DAY = 31;
+    private final List<OrderProduct> orderProducts;
+    private final int orderDay;
 
-    public Orders {
+    public Orders(List<OrderProduct> orderProducts, int orderDay) {
         validateOrderProduct(orderProducts);
         validateDate(orderDay);
+        this.orderProducts = orderProducts;
+        this.orderDay = orderDay;
+    }
+
+    public int findAllTargetMenuType(MenuType menuType) {
+        return orderProducts.stream()
+                .map(e -> e.findSameMenuTypeQuantity(menuType))
+                .reduce(Integer::sum)
+                .orElse(0);
     }
 
     public Long calculateTotalPrice() {
         return orderProducts.stream()
-                .map(e ->
-                        Product.getPriceByName(e.name()) * e.quantity())
+                .map(OrderProduct::sumOrderProduct)
                 .reduce(Long::sum)
                 .orElse(0L);
     }
 
-    private void validateDate(int orderDay) {
-        if (orderDay < FIRST_DAY || orderDay > LAST_DAY) {
-            throw new IllegalArgumentException(getText(INVALID_DATE));
-        }
+    public int getOrderDay() {
+        return orderDay;
     }
 
     private void validateOrderProduct(List<OrderProduct> orderProducts) {
         validateEmpty(orderProducts);
-        orderProducts.forEach(this::validateExistProduct);
-        validateSameName(orderProducts);
-        validateEmptyQuantity(orderProducts);
+        validateSameProduct(orderProducts);
         validateOrderSize(orderProducts);
         validateOnlyDrink(orderProducts);
     }
@@ -46,37 +54,24 @@ public record Orders(List<OrderProduct> orderProducts, int orderDay) {
         }
     }
 
-    private void validateExistProduct(OrderProduct orderProduct) {
-        boolean isMatch = Arrays.stream(Product.values())
-                .anyMatch(e -> e.getName().equals(orderProduct.name()));
 
-        if (!isMatch) {
-            throw new IllegalArgumentException(getText(INVALID_ORDER));
+    private void validateDate(int orderDay) {
+        if (orderDay < FIRST_DAY || orderDay > LAST_DAY) {
+            throw new IllegalArgumentException(getText(INVALID_DATE));
         }
     }
 
-    private void validateSameName(List<OrderProduct> orderProducts) {
-        int distinctSize = orderProducts.stream()
-                .map(OrderProduct::name)
-                .collect(Collectors.toSet())
-                .size();
+    private void validateSameProduct(List<OrderProduct> orderProducts) {
+        int distinctSize = new HashSet<OrderProduct>(orderProducts).size();
 
         if (orderProducts.size() != distinctSize) {
             throw new IllegalArgumentException(getText(INVALID_ORDER));
         }
     }
 
-    private void validateEmptyQuantity(List<OrderProduct> orderProducts) {
-        boolean containEmpty = orderProducts.stream().anyMatch(e -> e.quantity() == 0);
-
-        if (containEmpty) {
-            throw new IllegalArgumentException(getText(INVALID_ORDER));
-        }
-    }
-
     private void validateOrderSize(List<OrderProduct> orderProducts) {
         int totalOrderSize = orderProducts.stream()
-                .map(OrderProduct::quantity)
+                .map(OrderProduct::getQuantity)
                 .reduce(Integer::sum)
                 .orElse(0);
 
@@ -97,7 +92,7 @@ public record Orders(List<OrderProduct> orderProducts, int orderDay) {
 
     private Set<MenuType> convertMenuTypes(List<OrderProduct> orderProducts) {
         return orderProducts.stream()
-                .map(e -> MenuType.findMenuTypeByName(e.name()))
-                .collect(Collectors.toSet());
+                .map(OrderProduct::findMenuType)
+                .collect(toSet());
     }
 }

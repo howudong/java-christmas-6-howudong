@@ -1,8 +1,8 @@
 package christmas.domain.discounts;
 
 import christmas.domain.DiscountStrategy;
-import christmas.domain.EventCalendar;
 import christmas.domain.Orders;
+import christmas.domain.vo.EventCalendar;
 
 final class SpecialDiscountStrategy implements DiscountStrategy {
     private final EventCalendar eventCalendar;
@@ -15,7 +15,7 @@ final class SpecialDiscountStrategy implements DiscountStrategy {
 
     @Override
     public Long discount(Orders orders) {
-        int orderDay = orders.orderDay();
+        int orderDay = orders.getOrderDay();
 
         return getDiscountPrice(orderDay);
     }

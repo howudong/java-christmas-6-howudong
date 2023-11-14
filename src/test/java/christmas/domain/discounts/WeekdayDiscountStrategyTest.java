@@ -1,6 +1,10 @@
 package christmas.domain.discounts;
 
-import christmas.domain.*;
+import christmas.domain.DiscountStrategy;
+import christmas.domain.OrderProduct;
+import christmas.domain.Orders;
+import christmas.domain.vo.EventCalendar;
+import christmas.domain.vo.MenuType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -9,7 +13,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static christmas.domain.Product.*;
+import static christmas.domain.vo.Product.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
@@ -26,10 +30,10 @@ class WeekdayDiscountStrategyTest {
         Long discount = strategy.discount(orders);
         //then
         Integer size = orderList.stream()
-                .filter(e -> MenuType.findMenuTypeByName(e.name()).equals(MenuType.DESERT))
-                .map(OrderProduct::quantity)
+                .map(e -> e.findSameMenuTypeQuantity(MenuType.DESERT))
                 .reduce(Integer::sum)
                 .orElse(0);
+
 
         assertThat(discount).isEqualTo(size * 2023L);
     }
@@ -37,11 +41,11 @@ class WeekdayDiscountStrategyTest {
     @MethodSource
     private static Stream<Arguments> createWeekdayOrder() {
         return Stream.of(
-                arguments(3, List.of(new OrderProduct(CHRISTMAS_PASTA.getName(), 2))),
-                arguments(4, List.of(new OrderProduct(CHOCOLATE_CAKE.getName(), 3))),
-                arguments(12, List.of(new OrderProduct(CHOCOLATE_CAKE.getName(), 3),
-                        new OrderProduct(ICECREAM.getName(), 2))),
-                arguments(14, List.of(new OrderProduct(BBQ_LIBS.getName(), 4)))
+                arguments(3, List.of(new OrderProduct(CHRISTMAS_PASTA, 2))),
+                arguments(4, List.of(new OrderProduct(CHOCOLATE_CAKE, 3))),
+                arguments(12, List.of(new OrderProduct(CHOCOLATE_CAKE, 3),
+                        new OrderProduct(ICE_CREAM, 2))),
+                arguments(14, List.of(new OrderProduct(BBQ_LIBS, 4)))
         );
     }
 }

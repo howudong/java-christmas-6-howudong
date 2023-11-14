@@ -1,8 +1,9 @@
 package christmas.domain.discounts;
 
-import christmas.domain.*;
-
-import java.util.List;
+import christmas.domain.DiscountStrategy;
+import christmas.domain.Orders;
+import christmas.domain.vo.EventCalendar;
+import christmas.domain.vo.MenuType;
 
 final class WeekendDiscountStrategy implements DiscountStrategy {
     private final EventCalendar eventCalendar;
@@ -15,23 +16,16 @@ final class WeekendDiscountStrategy implements DiscountStrategy {
 
     @Override
     public Long discount(Orders orders) {
-        Boolean isWeekend = eventCalendar.isWeekend(orders.orderDay());
+        Boolean isWeekend = eventCalendar.isWeekend(orders.getOrderDay());
+        
         if (Boolean.TRUE.equals(isWeekend)) {
-            return getDiscountPrice(orders.orderProducts());
+            return getDiscountPrice(orders);
         }
         return 0L;
     }
 
-    private Long getDiscountPrice(List<OrderProduct> orders) {
-        int mainMenuSize = getTargetMenuQuantity(orders);
+    private Long getDiscountPrice(Orders orders) {
+        int mainMenuSize = orders.findAllTargetMenuType(MenuType.MAIN);
         return mainMenuSize * WEEKEND_DISCOUNT_PRICE;
-    }
-
-    private int getTargetMenuQuantity(List<OrderProduct> orders) {
-        return orders.stream()
-                .filter(e -> MenuType.findMenuTypeByName(e.name()).equals(MenuType.MAIN))
-                .map(OrderProduct::quantity)
-                .reduce(Integer::sum)
-                .orElse(0);
     }
 }

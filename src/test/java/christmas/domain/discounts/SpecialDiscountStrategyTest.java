@@ -1,6 +1,10 @@
 package christmas.domain.discounts;
 
-import christmas.domain.*;
+import christmas.domain.DiscountStrategy;
+import christmas.domain.OrderProduct;
+import christmas.domain.Orders;
+import christmas.domain.vo.EventCalendar;
+import christmas.domain.vo.Product;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -20,7 +24,7 @@ class SpecialDiscountStrategyTest {
     @DisplayName("Star로 된 날짜가 들어오면 1000원을 반환해야한다.")
     void Star_Day_천원_할인(int day) {
         //given
-        Orders orders = new Orders(List.of(new OrderProduct(Product.CHOCOLATE_CAKE.getName(), 1)), day);
+        Orders orders = new Orders(List.of(new OrderProduct(Product.CHOCOLATE_CAKE, 1)), day);
         //when
         Long discount = strategy.discount(orders);
         //then
@@ -32,7 +36,7 @@ class SpecialDiscountStrategyTest {
     @DisplayName("Star로 된 날짜가 들어오면 1000원을 반환해야한다.")
     void Not_Star_Day_할인_업음(int day) {
         //given
-        Orders orders = new Orders(List.of(new OrderProduct(Product.CHOCOLATE_CAKE.getName(), 1)), day);
+        Orders orders = new Orders(List.of(new OrderProduct(Product.CHOCOLATE_CAKE, 1)), day);
         //when
         Long discount = strategy.discount(orders);
         //then
