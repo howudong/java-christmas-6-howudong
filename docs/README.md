@@ -110,15 +110,14 @@
         - [x] (주문 메뉴, 개수) DTO
 
 
-- [x] PriceDto : 가격과 관련된 DTO
-    - [x] 할인 전 총 주문 금액
+- [x] BenefitDto : 혜택과 관련된 OutputDto
+    - [x] 증정 상품
+    - [x] 증정 뱃지
     - [x] 총 혜택 금액
 
-
-- [x] BenefitDTO : 보상 내역과 관련된 DTO
-    - [x] 혜택내역(할인 내역)
-    - [x] 증정 메뉴
-    - [x] 얻는 뱃지
+- [x] DiscountDto : 할인과 관련된 OutputDTO
+    - [x] 할인 후 총 금액
+    - [x] 할인 혜택별 할인 금액
 
 ## View
 
