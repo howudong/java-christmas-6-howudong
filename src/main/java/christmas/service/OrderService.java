@@ -2,6 +2,7 @@ package christmas.service;
 
 import christmas.domain.OrderProduct;
 import christmas.domain.Orders;
+import christmas.domain.vo.Product;
 import christmas.dto.OrderDto;
 
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ public final class OrderService {
         List<OrderProduct> orders = new ArrayList<>();
 
         orderProducts.forEach((key, value)
-                -> orders.add(new OrderProduct(key, value)));
+                -> orders.add(new OrderProduct(Product.findSameProduct(key), value)));
 
         return orders;
     }

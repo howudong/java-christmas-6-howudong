@@ -2,6 +2,7 @@ package christmas.dto;
 
 import christmas.domain.OrderProduct;
 import christmas.domain.Orders;
+import christmas.domain.vo.Product;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +46,8 @@ public final class OrderDto {
 
         public Orders toEntity() {
             List<OrderProduct> orders = new ArrayList<>();
-            orderProducts.forEach((key, value) -> orders.add(new OrderProduct(key, value)));
+            orderProducts.forEach((key, value) ->
+                    orders.add(new OrderProduct(Product.findSameProduct(key), value)));
             return new Orders(orders, day);
         }
 

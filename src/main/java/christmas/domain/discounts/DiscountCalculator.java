@@ -1,8 +1,8 @@
 package christmas.domain.discounts;
 
 import christmas.domain.DiscountStrategy;
-import christmas.domain.EventCalendar;
 import christmas.domain.Orders;
+import christmas.domain.vo.EventCalendar;
 
 import java.util.Collections;
 import java.util.HashMap;

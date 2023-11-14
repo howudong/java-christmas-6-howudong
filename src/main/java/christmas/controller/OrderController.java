@@ -2,7 +2,7 @@ package christmas.controller;
 
 import christmas.domain.OrderProduct;
 import christmas.domain.Orders;
-import christmas.domain.Product;
+import christmas.domain.vo.Product;
 import christmas.dto.InputDto;
 import christmas.dto.OrderDto;
 import christmas.dto.OutputDto;
@@ -19,7 +19,7 @@ import static christmas.view.Parameter.Input.*;
 
 public final class OrderController implements Controller {
     private static final List<OrderProduct> FAKE_ORDER_PRODUCTS
-            = List.of(new OrderProduct(Product.CHOCOLATE_CAKE.getName(), 1));
+            = List.of(new OrderProduct(Product.CHOCOLATE_CAKE, 1));
     private final OrderService orderService;
     private final InputView inputView;
     private final OutputView outputView;
