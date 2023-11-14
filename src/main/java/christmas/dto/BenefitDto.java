@@ -1,20 +1,19 @@
 package christmas.dto;
 
-import christmas.domain.BadgeType;
-import christmas.domain.OrderProduct;
+import christmas.domain.vo.BadgeType;
 
 public final class BenefitDto extends OutputDto {
-    private final OrderProduct rewardProduct;
+    private final ProductDto rewardProduct;
     private final BadgeType badgeType;
     private final Long benefitPrice;
 
-    public BenefitDto(OrderProduct rewardProduct, BadgeType badgeType, Long benefitPrice) {
+    public BenefitDto(ProductDto rewardProduct, BadgeType badgeType, Long benefitPrice) {
         this.rewardProduct = rewardProduct;
         this.badgeType = badgeType;
         this.benefitPrice = benefitPrice;
     }
 
-    public OrderProduct rewardProduct() {
+    public ProductDto rewardProduct() {
         return rewardProduct;
     }
 

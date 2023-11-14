@@ -1,11 +1,7 @@
 package christmas.view.outputview;
 
-import christmas.domain.BadgeType;
-import christmas.domain.OrderProduct;
-import christmas.dto.BenefitDto;
-import christmas.dto.DiscountDto;
-import christmas.dto.InputDto;
-import christmas.dto.OutputDto;
+import christmas.domain.vo.BadgeType;
+import christmas.dto.*;
 
 import java.util.Map;
 
@@ -35,12 +31,12 @@ public final class BenefitOutputView implements OutputView {
 
     private void viewRewardProduct(BenefitDto dto) {
         System.out.println("<증정 메뉴>");
-        OrderProduct product = dto.rewardProduct();
+        ProductDto product = dto.rewardProduct();
         if (product == null) {
             printWithLineBreaking(EMPTY_TEXT);
             return;
         }
-        String print = product.name() + " " + product.quantity() + "개";
+        String print = product.getName() + " " + product.getQuantity() + "개";
         printWithLineBreaking(print);
     }
 
