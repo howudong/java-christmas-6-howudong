@@ -18,10 +18,6 @@ public final class Benefit {
         rewardProduct = getRewardProduct();
     }
 
-    public Long getDiscountPrice() {
-        return originTotalPrice - sumAllDiscount();
-    }
-
     public Map<String, Long> getDiscounts() {
         Map<String, Long> copiedDiscounts = new HashMap<>(discounts);
         if (rewardProduct != null) {
