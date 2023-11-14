@@ -1,7 +1,7 @@
 package christmas.view.outputview;
 
 import christmas.domain.BadgeType;
-import christmas.domain.Product;
+import christmas.domain.OrderProduct;
 import christmas.dto.BenefitDto;
 import christmas.dto.DiscountDto;
 import christmas.dto.InputDto;
@@ -35,13 +35,12 @@ public final class BenefitOutputView implements OutputView {
 
     private void viewRewardProduct(BenefitDto dto) {
         System.out.println("<증정 메뉴>");
-        Product product = dto.rewardProduct();
+        OrderProduct product = dto.rewardProduct();
         if (product == null) {
             printWithLineBreaking(EMPTY_TEXT);
             return;
         }
-        // TODO 증정메뉴 반환할때 (상품 이름, 개수) 쌍으로 받도록 하기.
-        String print = product.getName() + " " + "1개";
+        String print = product.name() + " " + product.quantity() + "개";
         printWithLineBreaking(print);
     }
 

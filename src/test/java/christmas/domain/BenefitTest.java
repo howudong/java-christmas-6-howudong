@@ -17,7 +17,7 @@ class BenefitTest {
         Orders orders = new Orders(List.of(new OrderProduct(Product.SEA_FOOD_PASTA.getName(), 1)), 1);
         Benefit benefit = new Benefit(orders.getOriginalPrice(), null);
         //when
-        Product bonusProduct = benefit.getRewardProduct();
+        OrderProduct bonusProduct = benefit.getRewardProduct();
         //then
         assertThat(bonusProduct).isNull();
     }
@@ -29,9 +29,9 @@ class BenefitTest {
         Orders orders = new Orders(List.of(new OrderProduct(Product.SEA_FOOD_PASTA.getName(), 10)), 1);
         Benefit benefit = new Benefit(orders.getOriginalPrice(), null);
         //when
-        Product bonusProduct = benefit.getRewardProduct();
+        OrderProduct bonusProduct = benefit.getRewardProduct();
         //then
-        assertThat(bonusProduct).isEqualTo(Product.CHAMPAGNE);
+        assertThat(bonusProduct.name()).isEqualTo(Product.CHAMPAGNE.getName());
     }
 
     @Test
