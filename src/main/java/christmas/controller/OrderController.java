@@ -17,7 +17,7 @@ import java.util.Map;
 import static christmas.util.ErrorHandler.*;
 import static christmas.view.Parameter.Input.*;
 
-public class OrderController implements Controller {
+public final class OrderController implements Controller {
     private static final List<OrderProduct> FAKE_ORDER_PRODUCTS
             = List.of(new OrderProduct(Product.CHOCOLATE_CAKE.getName(), 1));
     private final OrderService orderService;
