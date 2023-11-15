@@ -20,5 +20,6 @@ public final class Parameter {
         public static final String ORDER_DTO = "orderDto";
         public static final String BENEFIT_DTO = "benefitDto";
         public static final String DISCOUNT_DTO = "discountDto";
+        public static final String ERROR = "error";
     }
 }
