@@ -32,8 +32,7 @@ public final class BenefitService {
     private BenefitDto configBenefit(Map<String, Long> discounts) {
         Optional<ProductDto> rewardDto = Optional.ofNullable(createRewardProductDto());
 
-        Benefit benefit = rewardDto.map(e
-                        -> new Benefit(discounts, e.toEntity()))
+        Benefit benefit = rewardDto.map(e -> new Benefit(discounts, e.toEntity()))
                 .orElse(new Benefit(discounts, null));
 
         return new BenefitDto(

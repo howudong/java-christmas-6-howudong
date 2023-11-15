@@ -1,6 +1,5 @@
 package christmas.domain.discounts;
 
-import christmas.domain.DiscountStrategy;
 import christmas.domain.OrderProduct;
 import christmas.domain.Orders;
 import christmas.domain.vo.EventCalendar;

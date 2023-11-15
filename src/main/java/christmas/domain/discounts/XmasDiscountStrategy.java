@@ -1,6 +1,5 @@
 package christmas.domain.discounts;
 
-import christmas.domain.DiscountStrategy;
 import christmas.domain.Orders;
 
 final class XmasDiscountStrategy implements DiscountStrategy {
