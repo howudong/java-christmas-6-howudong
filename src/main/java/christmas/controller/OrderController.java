@@ -18,8 +18,8 @@ import static christmas.util.ErrorHandler.*;
 import static christmas.view.Parameter.Input.*;
 
 public final class OrderController implements Controller {
-    private static final List<OrderProduct> FAKE_ORDER_PRODUCTS
-            = List.of(new OrderProduct(Product.CHOCOLATE_CAKE, 1));
+    private static final List<OrderProduct> FAKE_ORDER_PRODUCTS =
+            List.of(new OrderProduct(Product.CHOCOLATE_CAKE, 1));
     private final OrderService orderService;
     private final InputView inputView;
     private final OutputView outputView;
@@ -33,12 +33,13 @@ public final class OrderController implements Controller {
     @Override
     public void process(Map<String, InputDto> inputs, Map<String, OutputDto> outputs) {
         inputs.put(ORDER_INPUT_DTO, orderService.createOrderInput());
+
         tryUntilNoError(() -> displayOrderDayView(inputs, outputs), INVALID_DATE);
         tryUntilNoError(() -> displayOrderProductsView(inputs, outputs), INVALID_ORDER);
         tryUntilNoError(() -> displayOrderResultView(inputs, outputs), INVALID_ORDER);
     }
 
-    void displayOrderDayView(Map<String, InputDto> inputs, Map<String, OutputDto> outputs) {
+    private void displayOrderDayView(Map<String, InputDto> inputs, Map<String, OutputDto> outputs) {
         inputs.put(ORDER_DAY, null);
         outputView.view(inputs, outputs);
         inputView.read(inputs);
