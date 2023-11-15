@@ -1,6 +1,6 @@
 package christmas.domain;
 
-import christmas.util.ErrorHandler;
+import christmas.util.ErrorManager;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -20,7 +20,7 @@ class OrdersTest {
     void null_Order_예외() {
         assertThatThrownBy(() -> new Orders(List.of(), 1))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(ErrorHandler.INVALID_ORDER);
+                .hasMessageContaining(ErrorManager.INVALID_ORDER);
     }
 
 
@@ -30,7 +30,7 @@ class OrdersTest {
     void 메뉴_중복_예외(List<OrderProduct> param) {
         assertThatThrownBy(() -> new Orders(param, 1))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(ErrorHandler.INVALID_ORDER);
+                .hasMessageContaining(ErrorManager.INVALID_ORDER);
     }
 
     @ParameterizedTest
@@ -39,7 +39,7 @@ class OrdersTest {
     void 수량_초과_예외(List<OrderProduct> param) {
         assertThatThrownBy(() -> new Orders(param, 1))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(ErrorHandler.INVALID_ORDER);
+                .hasMessageContaining(ErrorManager.INVALID_ORDER);
     }
 
     @ParameterizedTest
@@ -48,7 +48,7 @@ class OrdersTest {
     void 오직_마실것_예외(List<OrderProduct> param) {
         assertThatThrownBy(() -> new Orders(param, 1))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(ErrorHandler.INVALID_ORDER);
+                .hasMessageContaining(ErrorManager.INVALID_ORDER);
     }
 
     @ParameterizedTest
@@ -65,7 +65,7 @@ class OrdersTest {
         assertThatThrownBy(() -> new Orders(List.of(new OrderProduct(CHOCOLATE_CAKE, 1)),
                 day))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(ErrorHandler.INVALID_DATE);
+                .hasMessageContaining(ErrorManager.INVALID_DATE);
     }
 
     @MethodSource

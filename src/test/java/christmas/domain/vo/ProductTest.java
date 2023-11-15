@@ -1,7 +1,7 @@
 package christmas.domain.vo;
 
 import christmas.domain.OrderProduct;
-import christmas.util.ErrorHandler;
+import christmas.util.ErrorManager;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +14,7 @@ class ProductTest {
     void 해당_메뉴_없음_예외() {
         assertThatThrownBy(() -> new OrderProduct(null, 1))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(ErrorHandler.INVALID_ORDER);
+                .hasMessageContaining(ErrorManager.INVALID_ORDER);
     }
 
     @Test
@@ -22,6 +22,6 @@ class ProductTest {
     void 주문_개수_0개_예외() {
         assertThatThrownBy(() -> new OrderProduct(CHOCOLATE_CAKE, 0))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(ErrorHandler.INVALID_ORDER);
+                .hasMessageContaining(ErrorManager.INVALID_ORDER);
     }
 }

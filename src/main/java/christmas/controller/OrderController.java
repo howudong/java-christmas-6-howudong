@@ -13,7 +13,7 @@ import christmas.view.outputview.OutputView;
 import java.util.List;
 import java.util.Map;
 
-import static christmas.util.ErrorHandler.*;
+import static christmas.util.ErrorManager.*;
 import static christmas.view.Parameter.Input.*;
 import static christmas.view.Parameter.Output.ERROR;
 import static christmas.view.Parameter.Output.ORDER_DTO;

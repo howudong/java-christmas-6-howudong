@@ -1,6 +1,6 @@
 package christmas.view.inputview;
 
-import christmas.util.ErrorHandler;
+import christmas.util.ErrorManager;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -24,7 +24,7 @@ class InputValidatorTest {
         for (String input : param) {
             assertThatThrownBy(() -> inputValidator.isNumeric(input))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessageContaining(ErrorHandler.INVALID_DATE);
+                    .hasMessageContaining(ErrorManager.INVALID_DATE);
         }
     }
 
@@ -34,7 +34,7 @@ class InputValidatorTest {
     void 숫자_아닐시_예외(String input) {
         assertThatThrownBy(() -> inputValidator.hasExactlyContains(',', 1, input))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(ErrorHandler.INVALID_ORDER);
+                .hasMessageContaining(ErrorManager.INVALID_ORDER);
 
     }
 
@@ -44,7 +44,7 @@ class InputValidatorTest {
     void 문자_아닐시_예외(String input) {
         assertThatThrownBy(() -> inputValidator.isOnlyWords(input))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(ErrorHandler.INVALID_ORDER);
+                .hasMessageContaining(ErrorManager.INVALID_ORDER);
 
     }
 

@@ -6,14 +6,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static christmas.util.ErrorHandler.*;
+import static christmas.util.ErrorManager.*;
 import static java.util.stream.Collectors.toSet;
 
 public final class Orders {
     private static final int MAX_ORDER_SIZE = 20;
     private static final int FIRST_DAY = 1;
     private static final int LAST_DAY = 31;
-    
+
     private final List<OrderProduct> orderProducts;
     private final int orderDay;
 

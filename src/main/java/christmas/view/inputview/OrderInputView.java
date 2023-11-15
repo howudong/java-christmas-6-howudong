@@ -9,8 +9,8 @@ import java.util.function.Consumer;
 
 import static camp.nextstep.edu.missionutils.Console.readLine;
 import static christmas.dto.OrderDto.Input;
-import static christmas.util.ErrorHandler.INVALID_ORDER;
-import static christmas.util.ErrorHandler.getText;
+import static christmas.util.ErrorManager.INVALID_ORDER;
+import static christmas.util.ErrorManager.getText;
 import static christmas.view.Parameter.Input.*;
 
 public final class OrderInputView implements InputView {

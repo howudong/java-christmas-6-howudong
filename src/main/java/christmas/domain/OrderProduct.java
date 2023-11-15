@@ -5,8 +5,8 @@ import christmas.domain.vo.Product;
 
 import java.util.Objects;
 
-import static christmas.util.ErrorHandler.INVALID_ORDER;
-import static christmas.util.ErrorHandler.getText;
+import static christmas.util.ErrorManager.INVALID_ORDER;
+import static christmas.util.ErrorManager.getText;
 
 public final class OrderProduct {
     private final Product product;
