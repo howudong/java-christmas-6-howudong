@@ -2,6 +2,7 @@ package christmas.dto;
 
 import christmas.domain.OrderProduct;
 import christmas.domain.Orders;
+import christmas.domain.vo.EventCalendar;
 import christmas.domain.vo.Product;
 
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ public final class OrderDto {
         }
 
         public void setDay(int day) {
+            new EventCalendar(day);
             this.day = day;
         }
 
@@ -48,7 +50,7 @@ public final class OrderDto {
             List<OrderProduct> orders = new ArrayList<>();
             orderProducts.forEach((key, value) ->
                     orders.add(new OrderProduct(Product.findProductByName(key), value)));
-            return new Orders(orders, day);
+            return new Orders(orders, new EventCalendar(day));
         }
 
         public Map<String, Integer> orderProducts() {

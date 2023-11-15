@@ -2,6 +2,7 @@ package christmas.service;
 
 import christmas.domain.OrderProduct;
 import christmas.domain.Orders;
+import christmas.domain.vo.EventCalendar;
 import christmas.domain.vo.Product;
 import christmas.dto.OrderDto;
 
@@ -37,6 +38,6 @@ public final class OrderService {
     }
 
     private Orders getOrders(List<OrderProduct> orders, int orderDay) {
-        return new Orders(orders, orderDay);
+        return new Orders(orders, new EventCalendar(orderDay));
     }
 }
