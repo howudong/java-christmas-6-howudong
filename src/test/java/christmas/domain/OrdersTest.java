@@ -1,5 +1,6 @@
 package christmas.domain;
 
+import christmas.domain.vo.EventCalendar;
 import christmas.util.ErrorManager;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,7 +19,7 @@ class OrdersTest {
     @Test
     @DisplayName("Product에 없는 메뉴의 이름이 포함되어 있다면 예외를 발생시킨다.")
     void null_Order_예외() {
-        assertThatThrownBy(() -> new Orders(List.of(), 1))
+        assertThatThrownBy(() -> new Orders(List.of(), new EventCalendar(1)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining(ErrorManager.INVALID_ORDER);
     }
@@ -28,7 +29,7 @@ class OrdersTest {
     @MethodSource("createSameOrder")
     @DisplayName("같은 이름의 메뉴를 주문하면 예외가 발생한다.")
     void 메뉴_중복_예외(List<OrderProduct> param) {
-        assertThatThrownBy(() -> new Orders(param, 1))
+        assertThatThrownBy(() -> new Orders(param, new EventCalendar(1)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining(ErrorManager.INVALID_ORDER);
     }
@@ -37,7 +38,7 @@ class OrdersTest {
     @MethodSource("createOverSizeOrder")
     @DisplayName("주문 개수가 20개가 넘어가면 예외를 발생시킨다.")
     void 수량_초과_예외(List<OrderProduct> param) {
-        assertThatThrownBy(() -> new Orders(param, 1))
+        assertThatThrownBy(() -> new Orders(param, new EventCalendar(1)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining(ErrorManager.INVALID_ORDER);
     }
@@ -46,7 +47,7 @@ class OrdersTest {
     @MethodSource("createOnlyDrinkOrder")
     @DisplayName("DRINK만 주문하면 예외가 발생한다.")
     void 오직_마실것_예외(List<OrderProduct> param) {
-        assertThatThrownBy(() -> new Orders(param, 1))
+        assertThatThrownBy(() -> new Orders(param, new EventCalendar(1)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining(ErrorManager.INVALID_ORDER);
     }
@@ -55,7 +56,7 @@ class OrdersTest {
     @MethodSource("createCorrectOrder")
     @DisplayName("올바른 주문이 들어온다면 예외가 발생하지 않는다.")
     void 주문_올바름(List<OrderProduct> param) {
-        new Orders(param, 1);
+        new Orders(param, new EventCalendar(1));
     }
 
     @ParameterizedTest
@@ -63,7 +64,7 @@ class OrdersTest {
     @DisplayName("날짜가 틀렸다면 예이가 발생한다.")
     void 날짜_틀림(int day) {
         assertThatThrownBy(() -> new Orders(List.of(new OrderProduct(CHOCOLATE_CAKE, 1)),
-                day))
+                new EventCalendar(day)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining(ErrorManager.INVALID_DATE);
     }

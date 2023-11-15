@@ -17,14 +17,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 class WeekdayDiscountStrategyTest {
-    private final DiscountStrategy strategy = new WeekdayDiscountStrategy(new EventCalendar());
 
     @ParameterizedTest
     @MethodSource("createWeekdayOrder")
     @DisplayName("평일 할인 가능 날짜가 들어오면 평일 할인을 진행한다.")
     void 평일_할인_정상(int day, List<OrderProduct> orderList) {
         //given
-        Orders orders = new Orders(orderList, day);
+        Orders orders = new Orders(orderList, new EventCalendar(day));
+        DiscountStrategy strategy = new WeekdayDiscountStrategy(new EventCalendar(orders.findOrderDay()));
         //when
         Long discount = strategy.discount(orders);
         //then

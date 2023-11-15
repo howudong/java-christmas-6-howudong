@@ -15,7 +15,7 @@ final class WeekendDiscountStrategy implements DiscountStrategy {
 
     @Override
     public Long discount(Orders orders) {
-        boolean isWeekend = eventCalendar.isWeekend(orders.getOrderDay());
+        boolean isWeekend = eventCalendar.isWeekend(orders.findOrderDay());
 
         if (isWeekend) {
             return getDiscountPrice(orders);

@@ -9,23 +9,29 @@ import java.util.Map;
 
 public final class DiscountCalculator {
     private static final long DISCOUNT_MIN_PRICE = 10000L;
+    
     private final Orders orders;
+    private final Map<String, DiscountStrategy> strategies;
 
     public DiscountCalculator(Orders orders) {
         this.orders = orders;
+        strategies = getInitialize(orders);
     }
-
-    private final Map<String, DiscountStrategy> strategies = Map.ofEntries(
-            Map.entry("크리스마스 디데이 할인", new XmasDiscountStrategy()),
-            Map.entry("특별 할인", new SpecialDiscountStrategy(new EventCalendar())),
-            Map.entry("평일 할인", new WeekdayDiscountStrategy(new EventCalendar())),
-            Map.entry("주말 할인", new WeekendDiscountStrategy(new EventCalendar())));
 
     public Map<String, Long> getAvailableDiscounts() {
         if (orders.calculateTotalPrice() < DISCOUNT_MIN_PRICE) {
             return Collections.emptyMap();
         }
         return getNotZeroDiscountResults();
+    }
+
+    private Map<String, DiscountStrategy> getInitialize(Orders orders) {
+        return Map.ofEntries(
+                Map.entry("크리스마스 디데이 할인", new XmasDiscountStrategy()),
+                Map.entry("특별 할인", new SpecialDiscountStrategy(new EventCalendar(orders.findOrderDay()))),
+                Map.entry("평일 할인", new WeekdayDiscountStrategy(new EventCalendar(orders.findOrderDay()))),
+                Map.entry("주말 할인", new WeekendDiscountStrategy(new EventCalendar(orders.findOrderDay())))
+        );
     }
 
     private Map<String, Long> getNotZeroDiscountResults() {

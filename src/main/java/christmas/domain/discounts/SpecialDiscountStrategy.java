@@ -14,7 +14,7 @@ final class SpecialDiscountStrategy implements DiscountStrategy {
 
     @Override
     public Long discount(Orders orders) {
-        int orderDay = orders.getOrderDay();
+        int orderDay = orders.findOrderDay();
         return getDiscountPrice(orderDay);
     }
 

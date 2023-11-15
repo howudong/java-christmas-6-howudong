@@ -1,27 +1,25 @@
 package christmas.domain;
 
+import christmas.domain.vo.EventCalendar;
 import christmas.domain.vo.MenuType;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static christmas.util.ErrorManager.*;
+import static christmas.util.ErrorManager.INVALID_ORDER;
+import static christmas.util.ErrorManager.getText;
 import static java.util.stream.Collectors.toSet;
 
 public final class Orders {
     private static final int MAX_ORDER_SIZE = 20;
-    private static final int FIRST_DAY = 1;
-    private static final int LAST_DAY = 31;
-
     private final List<OrderProduct> orderProducts;
-    private final int orderDay;
+    private final EventCalendar calendar;
 
-    public Orders(List<OrderProduct> orderProducts, int orderDay) {
+    public Orders(List<OrderProduct> orderProducts, EventCalendar calendar) {
         validateOrderProduct(orderProducts);
-        validateDate(orderDay);
         this.orderProducts = orderProducts;
-        this.orderDay = orderDay;
+        this.calendar = calendar;
     }
 
     public int findAllTargetMenuType(MenuType menuType) {
@@ -38,8 +36,8 @@ public final class Orders {
                 .orElse(0L);
     }
 
-    public int getOrderDay() {
-        return orderDay;
+    public int findOrderDay() {
+        return calendar.orderDay();
     }
 
     private void validateOrderProduct(List<OrderProduct> orderProducts) {
@@ -52,13 +50,6 @@ public final class Orders {
     private void validateEmpty(List<OrderProduct> orderProducts) {
         if (orderProducts.isEmpty()) {
             throw new IllegalArgumentException(getText(INVALID_ORDER));
-        }
-    }
-
-
-    private void validateDate(int orderDay) {
-        if (orderDay < FIRST_DAY || orderDay > LAST_DAY) {
-            throw new IllegalArgumentException(getText(INVALID_DATE));
         }
     }
 

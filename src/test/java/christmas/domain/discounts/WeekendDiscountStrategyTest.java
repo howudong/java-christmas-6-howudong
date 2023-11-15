@@ -16,14 +16,14 @@ import static christmas.domain.vo.Product.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class WeekendDiscountStrategyTest {
-    private final DiscountStrategy strategy = new WeekendDiscountStrategy(new EventCalendar());
 
     @ParameterizedTest
     @MethodSource("createWeekendOrder")
     @DisplayName("주말 할인 가능 날짜가 들어오면 주말 할인을 진행한다.")
     void 주말_할인_정상(int day, List<OrderProduct> orderList) {
         //given
-        Orders orders = new Orders(orderList, day);
+        Orders orders = new Orders(orderList, new EventCalendar(day));
+        DiscountStrategy strategy = new WeekendDiscountStrategy(new EventCalendar(orders.findOrderDay()));
         // when
         Long discount = strategy.discount(orders);
         //then
