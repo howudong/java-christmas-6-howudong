@@ -1,7 +1,5 @@
 package christmas.util;
 
-import christmas.view.ErrorHandlerView;
-
 public final class ErrorHandler {
     private static final String PREFIX = "[ERROR] ";
     public static final String INVALID_ORDER = "유효하지 않은 주문입니다. 다시 입력해 주세요.";
@@ -10,12 +8,12 @@ public final class ErrorHandler {
     private ErrorHandler() {
     }
 
-    public static void tryUntilNoError(Runnable method, String errorMessage) {
+    public static void tryUntilNoError(Runnable runMethod, Runnable methodOnExcept) {
         try {
-            method.run();
+            runMethod.run();
         } catch (IllegalArgumentException e) {
-            ErrorHandlerView.view(PREFIX + errorMessage);
-            tryUntilNoError(method, errorMessage);
+            methodOnExcept.run();
+            tryUntilNoError(runMethod, methodOnExcept);
         }
     }
 
