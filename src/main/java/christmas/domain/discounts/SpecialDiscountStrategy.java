@@ -5,18 +5,17 @@ import christmas.domain.Orders;
 import christmas.domain.vo.EventCalendar;
 
 final class SpecialDiscountStrategy implements DiscountStrategy {
+    private static final long SPECIAL_DISCOUNT_PRICE = 1000L;
+
     private final EventCalendar eventCalendar;
 
     public SpecialDiscountStrategy(EventCalendar eventCalendar) {
         this.eventCalendar = eventCalendar;
     }
 
-    private static final long SPECIAL_DISCOUNT_PRICE = 1000L;
-
     @Override
     public Long discount(Orders orders) {
         int orderDay = orders.getOrderDay();
-
         return getDiscountPrice(orderDay);
     }
 

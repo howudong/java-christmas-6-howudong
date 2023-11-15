@@ -9,11 +9,11 @@ public final class EventCalendar {
     private static final int EVENT_YEAR = 2023;
     private static final int EVENT_MONTH = 12;
 
-    public Boolean isSpecialDay(int day) {
+    public boolean isSpecialDay(int day) {
         return SPECIAL.contains(day);
     }
 
-    public Boolean isWeekend(int day) {
+    public boolean isWeekend(int day) {
         LocalDate date = LocalDate.of(EVENT_YEAR, EVENT_MONTH, day);
         DayOfWeek dayOfWeek = date.getDayOfWeek();
 
