@@ -1,5 +1,6 @@
 package christmas.domain.vo;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -14,7 +15,8 @@ public final class EventCalendar {
 
     public Boolean isWeekend(int day) {
         LocalDate date = LocalDate.of(EVENT_YEAR, EVENT_MONTH, day);
-        int weekIndex = date.getDayOfWeek().getValue();
-        return weekIndex == 5 || weekIndex == 6;
+        DayOfWeek dayOfWeek = date.getDayOfWeek();
+
+        return (dayOfWeek == DayOfWeek.FRIDAY || dayOfWeek == DayOfWeek.SATURDAY);
     }
 }
