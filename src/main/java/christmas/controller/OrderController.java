@@ -7,7 +7,6 @@ import christmas.dto.InputDto;
 import christmas.dto.OrderDto;
 import christmas.dto.OutputDto;
 import christmas.service.OrderService;
-import christmas.view.Parameter;
 import christmas.view.inputview.InputView;
 import christmas.view.outputview.OutputView;
 
@@ -16,6 +15,8 @@ import java.util.Map;
 
 import static christmas.util.ErrorHandler.*;
 import static christmas.view.Parameter.Input.*;
+import static christmas.view.Parameter.Output.ERROR;
+import static christmas.view.Parameter.Output.ORDER_DTO;
 
 public final class OrderController implements Controller {
     private static final List<OrderProduct> FAKE_ORDER_PRODUCTS =
@@ -34,9 +35,15 @@ public final class OrderController implements Controller {
     public void process(Map<String, InputDto> inputs, Map<String, OutputDto> outputs) {
         inputs.put(ORDER_INPUT_DTO, orderService.createOrderInput());
 
-        tryUntilNoError(() -> displayOrderDayView(inputs, outputs), INVALID_DATE);
-        tryUntilNoError(() -> displayOrderProductsView(inputs, outputs), INVALID_ORDER);
-        tryUntilNoError(() -> displayOrderResultView(inputs, outputs), INVALID_ORDER);
+        tryUntilNoError(
+                () -> displayOrderDayView(inputs, outputs),
+                () -> displayErrorView(inputs, outputs, getText(INVALID_DATE)));
+        tryUntilNoError(
+                () -> displayOrderProductsView(inputs, outputs),
+                () -> displayErrorView(inputs, outputs, getText(INVALID_ORDER)));
+        tryUntilNoError(
+                () -> displayOrderResultView(inputs, outputs),
+                () -> displayErrorView(inputs, outputs, getText(INVALID_ORDER)));
     }
 
     private void displayOrderDayView(Map<String, InputDto> inputs, Map<String, OutputDto> outputs) {
@@ -64,7 +71,13 @@ public final class OrderController implements Controller {
             throw new IllegalArgumentException(getText(INVALID_ORDER));
         }
         OrderDto.Output orderOutput = orderService.createOrderOutput(inputDto);
-        outputs.put(Parameter.Output.ORDER_DTO, orderOutput);
+        outputs.put(ORDER_DTO, orderOutput);
         outputView.view(inputs, outputs);
+    }
+
+    private void displayErrorView(Map<String, InputDto> inputs, Map<String, OutputDto> outputs, String errorText) {
+        outputs.put(errorText, null);
+        outputView.view(inputs, outputs);
+        outputs.remove(ERROR);
     }
 }

@@ -26,14 +26,13 @@ class WeekdayDiscountStrategyTest {
     void 평일_할인_정상(int day, List<OrderProduct> orderList) {
         //given
         Orders orders = new Orders(orderList, day);
-        // when
+        //when
         Long discount = strategy.discount(orders);
         //then
         Integer size = orderList.stream()
                 .map(e -> e.findSameMenuTypeQuantity(MenuType.DESERT))
                 .reduce(Integer::sum)
                 .orElse(0);
-
 
         assertThat(discount).isEqualTo(size * 2023L);
     }
