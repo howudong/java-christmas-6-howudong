@@ -10,6 +10,8 @@ import java.util.Map;
 import static christmas.view.Parameter.Output.ORDER_DTO;
 
 public final class OrderOutputView implements OutputView {
+    private static final String ERROR_KEYWORD = "[ERROR]";
+
     private final Map<String, Runnable> textMethods = Map.ofEntries(
             Map.entry(Parameter.Input.ORDER_DAY, this::viewOrderDay),
             Map.entry(Parameter.Input.ORDER_PRODUCTS, this::viewOrderProduct)
@@ -21,9 +23,21 @@ public final class OrderOutputView implements OutputView {
 
     @Override
     public void view(Map<String, InputDto> inputs, Map<String, OutputDto> outputs) {
+        findAndViewErrorText(outputs);
         inputs.keySet().forEach(this::runTextMethod);
         if (outputs.containsKey(ORDER_DTO)) {
             viewOrderMenuAndPrice(outputs.get(ORDER_DTO));
+        }
+    }
+
+    private void findAndViewErrorText(Map<String, OutputDto> outputs) {
+        String text = outputs.keySet()
+                .stream()
+                .filter(e -> e.contains(ERROR_KEYWORD))
+                .findFirst().orElse(null);
+        if (text != null) {
+            System.out.println(text);
+            outputs.remove(text);
         }
     }
 
@@ -48,7 +62,7 @@ public final class OrderOutputView implements OutputView {
 
         viewOrderMenu(orderOutputDto);
         System.out.println();
-        
+
         viewOriginalTotalPrice(orderOutputDto);
         System.out.println();
 
