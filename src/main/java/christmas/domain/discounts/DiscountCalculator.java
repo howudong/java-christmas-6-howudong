@@ -12,7 +12,6 @@ public final class DiscountCalculator {
     private static final long DISCOUNT_MIN_PRICE = 10000L;
     private final Orders orders;
 
-
     public DiscountCalculator(Orders orders) {
         this.orders = orders;
     }
@@ -27,10 +26,7 @@ public final class DiscountCalculator {
         if (orders.calculateTotalPrice() < DISCOUNT_MIN_PRICE) {
             return Collections.emptyMap();
         }
-
-        Map<String, Long> discounts = getNotZeroDiscountResults();
-        sumAllDiscount(discounts);
-        return discounts;
+        return getNotZeroDiscountResults();
     }
 
     private Map<String, Long> getNotZeroDiscountResults() {
@@ -40,17 +36,10 @@ public final class DiscountCalculator {
         return result;
     }
 
-    private void hasDiscountPrice(Orders orders, Map<String, Long> result,
-                                  String key, DiscountStrategy value) {
-        if (value.discount(orders) != 0L) {
-            result.put(key, value.discount(orders));
+    private void hasDiscountPrice(Orders orders, Map<String, Long> result, String key, DiscountStrategy value) {
+        if (value.discount(orders) == 0L) {
+            return;
         }
-    }
-
-    private Long sumAllDiscount(Map<String, Long> discounts) {
-        return discounts.values()
-                .stream()
-                .reduce(Long::sum)
-                .orElse(0L);
+        result.put(key, value.discount(orders));
     }
 }
