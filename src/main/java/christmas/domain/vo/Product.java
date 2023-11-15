@@ -24,9 +24,9 @@ public enum Product {
         this.price = price;
     }
 
-    public static Product findSameProduct(String product) {
+    public static Product findProductByName(String name) {
         return Arrays.stream(values())
-                .filter(e -> e.name.equals(product))
+                .filter(e -> e.name.equals(name))
                 .findAny()
                 .orElse(null);
     }

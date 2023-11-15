@@ -14,7 +14,7 @@ public final class ProductDto extends OutputDto {
 
     public OrderProduct toEntity() {
 
-        return new OrderProduct(Product.findSameProduct(name), quantity);
+        return new OrderProduct(Product.findProductByName(name), quantity);
     }
 
     public String getName() {

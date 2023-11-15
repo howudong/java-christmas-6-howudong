@@ -31,7 +31,7 @@ public final class OrderService {
         List<OrderProduct> orders = new ArrayList<>();
 
         orderProducts.forEach((key, value)
-                -> orders.add(new OrderProduct(Product.findSameProduct(key), value)));
+                -> orders.add(new OrderProduct(Product.findProductByName(key), value)));
 
         return orders;
     }

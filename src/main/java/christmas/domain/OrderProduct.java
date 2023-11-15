@@ -59,7 +59,7 @@ public final class OrderProduct {
     }
 
     private void validateExist(Product product) {
-        if (product == null || Product.findSameProduct(product.getName()) == null) {
+        if (product == null || Product.findProductByName(product.getName()) == null) {
             throw new IllegalArgumentException(getText(INVALID_ORDER));
         }
     }
