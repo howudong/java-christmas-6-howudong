@@ -6,10 +6,12 @@ import christmas.dto.InputDto;
 import christmas.dto.OutputDto;
 import christmas.service.BenefitService;
 import christmas.service.DiscountService;
-import christmas.view.Parameter;
 import christmas.view.outputview.OutputView;
 
 import java.util.Map;
+
+import static christmas.view.Parameter.Output.BENEFIT_DTO;
+import static christmas.view.Parameter.Output.DISCOUNT_DTO;
 
 public final class BenefitController implements Controller {
     private final BenefitService benefitService;
@@ -31,7 +33,7 @@ public final class BenefitController implements Controller {
     private void initOutputs(Map<String, OutputDto> outputs) {
         BenefitDto benefitDto = benefitService.createBenefitDto();
         DiscountDto discountDto = discountService.createDiscountDto();
-        outputs.put(Parameter.Output.BENEFIT_DTO, benefitDto);
-        outputs.put(Parameter.Output.DISCOUNT_DTO, discountDto);
+        outputs.put(BENEFIT_DTO, benefitDto);
+        outputs.put(DISCOUNT_DTO, discountDto);
     }
 }
