@@ -40,6 +40,11 @@ public final class BenefitOutputView implements OutputView {
         printWithLineBreaking(print);
     }
 
+    private void printWithLineBreaking(String benefitPrice) {
+        System.out.println(benefitPrice);
+        System.out.println();
+    }
+
     private void viewDiscounts(DiscountDto dto) {
         System.out.println("<혜택 내역>");
         Map<String, Long> discounts = dto.getDiscounts();
@@ -47,13 +52,15 @@ public final class BenefitOutputView implements OutputView {
             printWithLineBreaking(EMPTY_TEXT);
             return;
         }
-        discounts.forEach((key, value) -> System.out.println(key + ": " + convertDiscountPay(value)));
+        discounts.forEach((key, value)
+                -> System.out.println(key + ": " + convertDiscountPay(value)));
         System.out.println();
     }
 
     private void viewBenefitPrice(BenefitDto dto) {
         System.out.println("<총혜택 금액>");
         Long benefitPrice = dto.getBenefitPrice();
+
         if (benefitPrice <= 0L) {
             printWithLineBreaking(convertToPay(benefitPrice));
             return;
@@ -61,9 +68,12 @@ public final class BenefitOutputView implements OutputView {
         printWithLineBreaking(convertDiscountPay(benefitPrice));
     }
 
-    private void printWithLineBreaking(String benefitPrice) {
-        System.out.println(benefitPrice);
-        System.out.println();
+    private String convertToPay(Long pay) {
+        return String.format("%,d원", pay);
+    }
+
+    private String convertDiscountPay(Long pay) {
+        return String.format("-%,d원", pay);
     }
 
     private void viewRewardBadge(BenefitDto dto) {
@@ -81,13 +91,5 @@ public final class BenefitOutputView implements OutputView {
         System.out.println("<할인 후 예상 결제 금액>");
         String formattedPrice = convertToPay(dto.getTotalDiscountPrice());
         printWithLineBreaking(formattedPrice);
-    }
-
-    private String convertDiscountPay(Long pay) {
-        return String.format("-%,d원", pay);
-    }
-
-    private String convertToPay(Long pay) {
-        return String.format("%,d원", pay);
     }
 }

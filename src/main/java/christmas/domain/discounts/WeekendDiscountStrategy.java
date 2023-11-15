@@ -6,13 +6,13 @@ import christmas.domain.vo.EventCalendar;
 import christmas.domain.vo.MenuType;
 
 final class WeekendDiscountStrategy implements DiscountStrategy {
+    private static final long WEEKEND_DISCOUNT_PRICE = 2023L;
+
     private final EventCalendar eventCalendar;
 
     public WeekendDiscountStrategy(EventCalendar eventCalendar) {
         this.eventCalendar = eventCalendar;
     }
-
-    private static final long WEEKEND_DISCOUNT_PRICE = 2023L;
 
     @Override
     public Long discount(Orders orders) {

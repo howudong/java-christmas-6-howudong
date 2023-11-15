@@ -11,7 +11,7 @@ import static camp.nextstep.edu.missionutils.Console.readLine;
 import static christmas.dto.OrderDto.Input;
 import static christmas.util.ErrorHandler.INVALID_ORDER;
 import static christmas.util.ErrorHandler.getText;
-import static christmas.view.Parameter.Input.ORDER_INPUT_DTO;
+import static christmas.view.Parameter.Input.*;
 
 public final class OrderInputView implements InputView {
     private static final char DELIMITER = '-';
@@ -20,11 +20,10 @@ public final class OrderInputView implements InputView {
     private static final String REMOVE = "";
 
     private final InputValidator inputValidator;
-    private final Map<String, Consumer<Map<String, InputDto>>> methods =
-            Map.ofEntries(
-                    Map.entry("orderDay", this::inputOrderDay),
-                    Map.entry("orderProducts", this::inputOrderProducts)
-            );
+    private final Map<String, Consumer<Map<String, InputDto>>> methods = Map.ofEntries(
+            Map.entry(ORDER_DAY, this::inputOrderDay),
+            Map.entry(ORDER_PRODUCTS, this::inputOrderProducts)
+    );
 
     public OrderInputView(InputValidator inputValidator) {
         this.inputValidator = inputValidator;
@@ -51,6 +50,10 @@ public final class OrderInputView implements InputView {
         inputValidator.isNumeric(input);
 
         dto.setDay(Integer.parseInt(input));
+    }
+
+    private String removeEmptySpace(String input) {
+        return input.replace(EMPTY_SPACE, REMOVE);
     }
 
     private void inputOrderProducts(Map<String, InputDto> inputs) {
@@ -83,9 +86,5 @@ public final class OrderInputView implements InputView {
     private void addOrderProduct(Map<String, Integer> orders, String input) {
         String[] splitInput = input.split(String.valueOf(DELIMITER));
         orders.put(splitInput[0].trim(), Integer.parseInt(splitInput[1].trim()));
-    }
-
-    private String removeEmptySpace(String input) {
-        return input.replace(EMPTY_SPACE, REMOVE);
     }
 }

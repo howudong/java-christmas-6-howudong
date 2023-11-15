@@ -14,7 +14,7 @@ public final class DiscountDto extends OutputDto {
     public Map<String, Long> getDiscounts() {
         return discounts;
     }
-    
+
     public Long getTotalDiscountPrice() {
         return totalDiscountPrice;
     }

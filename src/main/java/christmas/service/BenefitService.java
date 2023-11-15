@@ -15,6 +15,7 @@ public final class BenefitService {
     private static final long TOTAL_GOAL_PRICE = 120_000L;
     private static final Product REWARD_PRODUCT = CHAMPAGNE;
     private static final int REWARD_QUANTITY = 1;
+
     private final DiscountCalculator calculator;
     private final Long originTotalPrice;
 
@@ -30,10 +31,15 @@ public final class BenefitService {
 
     private BenefitDto configBenefit(Map<String, Long> discounts) {
         Optional<ProductDto> rewardDto = Optional.ofNullable(createRewardProductDto());
-        Benefit benefit = rewardDto.map(e -> new Benefit(discounts, e.toEntity()))
+
+        Benefit benefit = rewardDto.map(e
+                        -> new Benefit(discounts, e.toEntity()))
                 .orElse(new Benefit(discounts, null));
 
-        return new BenefitDto(rewardDto.orElse(null), benefit.getRewardBadge(), benefit.getBenefitPrice());
+        return new BenefitDto(
+                rewardDto.orElse(null),
+                benefit.getRewardBadge(),
+                benefit.getBenefitPrice());
     }
 
     private ProductDto createRewardProductDto() {

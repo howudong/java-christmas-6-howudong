@@ -48,6 +48,7 @@ public final class OrderOutputView implements OutputView {
 
         viewOrderMenu(orderOutputDto);
         System.out.println();
+        
         viewOriginalTotalPrice(orderOutputDto);
         System.out.println();
 
@@ -65,7 +66,7 @@ public final class OrderOutputView implements OutputView {
         System.out.println(convertToPay(price));
     }
 
-    String convertToPay(Long pay) {
+    private String convertToPay(Long pay) {
         return String.format("%,d원", pay);
     }
 }

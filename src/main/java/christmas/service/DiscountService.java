@@ -7,7 +7,6 @@ import java.util.Map;
 
 public final class DiscountService {
     private final DiscountCalculator calculator;
-
     private final Long originalTotalPrice;
 
     public DiscountService(DiscountCalculator calculator, Long originalTotalPrice) {
