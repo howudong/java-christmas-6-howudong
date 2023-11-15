@@ -24,7 +24,7 @@ class SpecialDiscountStrategyTest {
         //given
         Orders orders = new Orders(
                 List.of(new OrderProduct(Product.CHOCOLATE_CAKE, 1)), new EventCalendar(day));
-        DiscountStrategy strategy = new SpecialDiscountStrategy(new EventCalendar(orders.findOrderDay()));
+        DiscountStrategy strategy = new SpecialDiscountStrategy();
         //when
         Long discount = strategy.discount(orders);
         //then
@@ -38,7 +38,7 @@ class SpecialDiscountStrategyTest {
         //given
         Orders orders = new Orders(
                 List.of(new OrderProduct(Product.CHOCOLATE_CAKE, 1)), new EventCalendar(day));
-        DiscountStrategy strategy = new SpecialDiscountStrategy(new EventCalendar(orders.findOrderDay()));
+        DiscountStrategy strategy = new SpecialDiscountStrategy();
         //when
         Long discount = strategy.discount(orders);
         //then

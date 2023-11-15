@@ -23,7 +23,7 @@ class WeekendDiscountStrategyTest {
     void 주말_할인_정상(int day, List<OrderProduct> orderList) {
         //given
         Orders orders = new Orders(orderList, new EventCalendar(day));
-        DiscountStrategy strategy = new WeekendDiscountStrategy(new EventCalendar(orders.findOrderDay()));
+        DiscountStrategy strategy = new WeekendDiscountStrategy();
         // when
         Long discount = strategy.discount(orders);
         //then

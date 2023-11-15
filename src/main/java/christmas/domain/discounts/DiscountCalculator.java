@@ -1,7 +1,6 @@
 package christmas.domain.discounts;
 
 import christmas.domain.Orders;
-import christmas.domain.vo.EventCalendar;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -9,13 +8,13 @@ import java.util.Map;
 
 public final class DiscountCalculator {
     private static final long DISCOUNT_MIN_PRICE = 10000L;
-    
+
     private final Orders orders;
     private final Map<String, DiscountStrategy> strategies;
 
     public DiscountCalculator(Orders orders) {
         this.orders = orders;
-        strategies = getInitialize(orders);
+        strategies = getInitialize();
     }
 
     public Map<String, Long> getAvailableDiscounts() {
@@ -25,12 +24,12 @@ public final class DiscountCalculator {
         return getNotZeroDiscountResults();
     }
 
-    private Map<String, DiscountStrategy> getInitialize(Orders orders) {
+    private Map<String, DiscountStrategy> getInitialize() {
         return Map.ofEntries(
                 Map.entry("크리스마스 디데이 할인", new XmasDiscountStrategy()),
-                Map.entry("특별 할인", new SpecialDiscountStrategy(new EventCalendar(orders.findOrderDay()))),
-                Map.entry("평일 할인", new WeekdayDiscountStrategy(new EventCalendar(orders.findOrderDay()))),
-                Map.entry("주말 할인", new WeekendDiscountStrategy(new EventCalendar(orders.findOrderDay())))
+                Map.entry("특별 할인", new SpecialDiscountStrategy()),
+                Map.entry("평일 할인", new WeekdayDiscountStrategy()),
+                Map.entry("주말 할인", new WeekendDiscountStrategy())
         );
     }
 

@@ -1,21 +1,14 @@
 package christmas.domain.discounts;
 
 import christmas.domain.Orders;
-import christmas.domain.vo.EventCalendar;
 import christmas.domain.vo.MenuType;
 
 final class WeekdayDiscountStrategy implements DiscountStrategy {
     private static final long WEEKDAY_DISCOUNT_PRICE = 2023L;
 
-    private final EventCalendar eventCalendar;
-
-    public WeekdayDiscountStrategy(EventCalendar eventCalendar) {
-        this.eventCalendar = eventCalendar;
-    }
-
     @Override
     public Long discount(Orders orders) {
-        boolean isWeekend = eventCalendar.isWeekend(orders.findOrderDay());
+        boolean isWeekend = orders.isWeekend();
         if (!isWeekend) {
             return calculateDiscountPrice(orders);
         }

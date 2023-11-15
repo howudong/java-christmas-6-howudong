@@ -24,7 +24,7 @@ class WeekdayDiscountStrategyTest {
     void 평일_할인_정상(int day, List<OrderProduct> orderList) {
         //given
         Orders orders = new Orders(orderList, new EventCalendar(day));
-        DiscountStrategy strategy = new WeekdayDiscountStrategy(new EventCalendar(orders.findOrderDay()));
+        DiscountStrategy strategy = new WeekdayDiscountStrategy();
         //when
         Long discount = strategy.discount(orders);
         //then
