@@ -3,10 +3,13 @@ package christmas.domain;
 import christmas.domain.vo.EventCalendar;
 import christmas.domain.vo.MenuType;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static christmas.domain.vo.EventCalendar.*;
 import static christmas.util.ErrorManager.INVALID_ORDER;
 import static christmas.util.ErrorManager.getText;
 import static java.util.stream.Collectors.toSet;
@@ -27,6 +30,17 @@ public final class Orders {
                 .map(e -> e.findSameMenuTypeQuantity(menuType))
                 .reduce(Integer::sum)
                 .orElse(0);
+    }
+
+    public boolean isSpecialDay() {
+        return SPECIAL.contains(calendar.orderDay());
+    }
+
+    public boolean isWeekend() {
+        LocalDate date = LocalDate.of(EVENT_YEAR, EVENT_MONTH, calendar.orderDay());
+        DayOfWeek dayOfWeek = date.getDayOfWeek();
+
+        return (dayOfWeek == DayOfWeek.FRIDAY || dayOfWeek == DayOfWeek.SATURDAY);
     }
 
     public Long calculateTotalPrice() {
