@@ -5,13 +5,16 @@ import christmas.dto.*;
 
 import java.util.Map;
 
+import static christmas.view.Parameter.Output.BENEFIT_DTO;
+import static christmas.view.Parameter.Output.DISCOUNT_DTO;
+
 public final class BenefitOutputView implements OutputView {
     private static final String EMPTY_TEXT = "없음";
 
     @Override
     public void view(Map<String, InputDto> inputs, Map<String, OutputDto> outputs) {
-        BenefitDto benefitDto = assignDto(BenefitDto.class, outputs, "benefitDto");
-        DiscountDto discountDto = assignDto(DiscountDto.class, outputs, "discountDto");
+        BenefitDto benefitDto = assignDto(BenefitDto.class, outputs, BENEFIT_DTO);
+        DiscountDto discountDto = assignDto(DiscountDto.class, outputs, DISCOUNT_DTO);
 
         if (benefitDto != null && discountDto != null) {
             viewRewardProduct(benefitDto);
