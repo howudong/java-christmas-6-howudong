@@ -11,7 +11,7 @@ import static christmas.view.Parameter.Output.ORDER_DTO;
 
 public final class OrderOutputView implements OutputView {
     private static final String ERROR_KEYWORD = "[ERROR]";
-
+    
     private final Map<String, Runnable> textMethods = Map.ofEntries(
             Map.entry(Parameter.Input.ORDER_DAY, this::viewOrderDay),
             Map.entry(Parameter.Input.ORDER_PRODUCTS, this::viewOrderProduct)
@@ -23,22 +23,31 @@ public final class OrderOutputView implements OutputView {
 
     @Override
     public void view(Map<String, InputDto> inputs, Map<String, OutputDto> outputs) {
-        findAndViewErrorText(outputs);
+        if (isHasErrorText(outputs)) {
+            findAndViewErrorText(outputs);
+            return;
+        }
         inputs.keySet().forEach(this::runTextMethod);
         if (outputs.containsKey(ORDER_DTO)) {
             viewOrderMenuAndPrice(outputs.get(ORDER_DTO));
         }
     }
 
+    private boolean isHasErrorText(Map<String, OutputDto> outputs) {
+        return outputs.keySet()
+                .stream()
+                .anyMatch(e -> e.contains(ERROR_KEYWORD));
+    }
+
     private void findAndViewErrorText(Map<String, OutputDto> outputs) {
         String text = outputs.keySet()
                 .stream()
                 .filter(e -> e.contains(ERROR_KEYWORD))
-                .findFirst().orElse(null);
-        if (text != null) {
-            System.out.println(text);
-            outputs.remove(text);
-        }
+                .findFirst()
+                .orElse(null);
+
+        System.out.println(text);
+        outputs.remove(text);
     }
 
     private void runTextMethod(String name) {
